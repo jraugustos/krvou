@@ -64,9 +64,19 @@
 - Ghost border: `border-2 border-outline-variant` (20% opacity)
 
 ### Elevacao — 4px Offset (Signature Move)
-- Idle: `shadow-[4px_4px_0px_0px_<cor>]`
+Usar SEMPRE os tokens de shadow, NUNCA hex/rgba hardcoded:
+- `shadow-arcade-primary` — offset primary (neon green)
+- `shadow-arcade-secondary` — offset secondary (electric yellow)
+- `shadow-arcade-destructive` — offset destructive (red)
+- `shadow-arcade-dark` — offset generico escuro (cards, modais)
+- `shadow-arcade-toast` — offset leve para toasts
 - Active/Pressed: `active:translate-x-[4px] active:translate-y-[4px] active:shadow-none`
-- NUNCA usar box-shadow padrao (blur)
+- NUNCA usar box-shadow padrao (blur), NUNCA hardcodar cores em shadow
+
+### Focus/Validation Glow
+Usar tokens de glow, NUNCA rgba hardcoded:
+- `shadow-glow-primary` — glow neon green (focus states)
+- `shadow-glow-destructive` — glow red (erro/invalid states)
 
 ### Separacao
 - Usar tonal shifts (surface-low → surface-container → surface-high)

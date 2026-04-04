@@ -338,13 +338,13 @@ export default function DevPage() {
             4px Offset — Signature Move
           </h2>
           <div className="flex flex-wrap gap-8 bg-surface-container p-6">
-            <div className="bg-primary p-6 text-primary-foreground shadow-[4px_4px_0px_0px_#2ae500]">
+            <div className="bg-primary p-6 text-primary-foreground shadow-arcade-primary">
               <p className="font-heading text-sm font-bold">Primary Card</p>
             </div>
-            <div className="bg-secondary-container p-6 text-secondary-foreground shadow-[4px_4px_0px_0px_#b8b603]">
+            <div className="bg-secondary-container p-6 text-secondary-foreground shadow-arcade-secondary">
               <p className="font-heading text-sm font-bold">Secondary Card</p>
             </div>
-            <div className="border-2 border-outline-variant bg-surface-highest p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+            <div className="border-2 border-outline-variant bg-surface-highest p-6 shadow-arcade-dark">
               <p className="font-heading text-sm font-bold text-foreground">
                 Surface Card
               </p>

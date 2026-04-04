@@ -11,13 +11,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-[4px_4px_0px_0px_#2ae500] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none hover:brightness-110",
+          "bg-primary text-primary-foreground shadow-arcade-primary active:translate-x-[4px] active:translate-y-[4px] active:shadow-none hover:brightness-110",
         secondary:
-          "bg-secondary-container text-secondary-foreground shadow-[4px_4px_0px_0px_#b8b603] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none hover:brightness-110",
+          "bg-secondary-container text-secondary-foreground shadow-arcade-secondary active:translate-x-[4px] active:translate-y-[4px] active:shadow-none hover:brightness-110",
         tertiary:
           "bg-transparent text-primary underline decoration-dotted decoration-2 underline-offset-4 hover:decoration-solid active:opacity-80",
         destructive:
-          "bg-destructive text-white shadow-[4px_4px_0px_0px_#cc0000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none hover:brightness-110",
+          "bg-destructive text-destructive-foreground shadow-arcade-destructive active:translate-x-[4px] active:translate-y-[4px] active:shadow-none hover:brightness-110",
         outline:
           "border-2 border-outline-variant bg-transparent text-foreground hover:bg-surface-high active:bg-surface-highest",
         ghost:

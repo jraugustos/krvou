@@ -41,7 +41,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "!border-l-4 !bg-surface-container !text-on-surface !rounded-none !shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]",
+            "!border-l-4 !bg-surface-container !text-on-surface !rounded-none !shadow-arcade-toast",
           success: "!border-l-primary",
           error: "!border-l-destructive",
           info: "!border-l-tertiary",

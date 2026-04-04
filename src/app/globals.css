@@ -46,8 +46,14 @@
 
   /* Error */
   --destructive: #ff3131;
+  --destructive-foreground: #ffffff;
+  --destructive-shadow: #cc0000;
   --error-container: #93000a;
   --on-error: #690005;
+
+  /* Arcade shadow offset colors (darker variants for 4px offset) */
+  --arcade-shadow-primary: var(--primary-dim);
+  --arcade-shadow-secondary: #b8b603;
 
   /* Semantic mappings for shadcn */
   --card: #2c1245;
@@ -105,10 +111,14 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-on-surface: var(--on-surface);
   --color-on-surface-variant: var(--on-surface-variant);
   --color-outline: var(--outline);
   --color-outline-variant: var(--outline-variant);
+  --color-arcade-shadow-primary: var(--arcade-shadow-primary);
+  --color-arcade-shadow-secondary: var(--arcade-shadow-secondary);
+  --color-destructive-shadow: var(--destructive-shadow);
 
   /* Surface hierarchy */
   --color-surface-lowest: var(--surface-lowest);
@@ -149,6 +159,17 @@
   --font-heading: var(--font-space-grotesk);
   --font-pixel: var(--font-press-start);
   --font-mono: var(--font-geist-mono);
+
+  /* Arcade shadows (4px offset — signature move) */
+  --shadow-arcade-primary: 4px 4px 0px 0px var(--arcade-shadow-primary);
+  --shadow-arcade-secondary: 4px 4px 0px 0px var(--arcade-shadow-secondary);
+  --shadow-arcade-destructive: 4px 4px 0px 0px var(--destructive-shadow);
+  --shadow-arcade-dark: 4px 4px 0px 0px rgba(0, 0, 0, 0.5);
+  --shadow-arcade-toast: 4px 4px 0px 0px rgba(0, 0, 0, 0.3);
+
+  /* Glow shadows (focus/validation states) */
+  --shadow-glow-primary: 0 0 8px color-mix(in srgb, var(--primary) 40%, transparent);
+  --shadow-glow-destructive: 0 0 8px color-mix(in srgb, var(--destructive) 40%, transparent);
 }
 
 /* ============================================
