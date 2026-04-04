@@ -1,0 +1,32 @@
+%% KRVOU — Diagrama de Arquitetura
+
+graph LR
+    subgraph Cliente ["Cliente (Browser)"]
+        A[Next.js App Router] --> B[React Components]
+        B --> C[shadcn/ui + Pixel Art Theme]
+    end
+
+    subgraph ServerActions ["Server-Side (Next.js)"]
+        D[Server Actions] --> E[Auth Logic]
+        D --> F[Pool Management]
+        D --> G[Bet Processing]
+        D --> H[Score Calculation]
+        D --> I[Wizard AI Logic]
+    end
+
+    subgraph Data ["Dados"]
+        J[Prisma ORM] --> K[(PostgreSQL)]
+    end
+
+    subgraph External ["Servicos Externos"]
+        L[Claude API — Anthropic SDK]
+        M[NextAuth.js]
+        N[Google OAuth]
+    end
+
+    B --> D
+    D --> J
+    I --> L
+    E --> M
+    M --> N
+    M --> K

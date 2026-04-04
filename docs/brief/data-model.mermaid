@@ -1,0 +1,85 @@
+%% KRVOU — Modelo de Dados
+
+erDiagram
+    USER ||--o{ POOL_MEMBER : "participa de"
+    USER ||--o{ BET : "faz"
+
+    POOL ||--o{ POOL_MEMBER : "tem"
+    POOL ||--o{ BET_CATEGORY : "define"
+    POOL ||--o{ SCORING_RULE : "tem regras"
+
+    BET_CATEGORY ||--o{ BET : "recebe palpites"
+    BET_CATEGORY ||--o{ RESULT : "tem resultado"
+    BET_CATEGORY ||--o{ SCORING_RULE : "tem regra de"
+
+    USER {
+        string id PK
+        string name
+        string email UK
+        string passwordHash "nullable — Google users nao tem"
+        string image "nullable — avatar"
+        datetime createdAt
+    }
+
+    POOL {
+        string id PK
+        string name "ex: Bolao Copa 2026"
+        string description "descricao do evento"
+        string eventType "ex: futebol, generico"
+        enum status "draft | open | in_progress | closed"
+        string inviteCode UK "codigo unico para link de convite"
+        string createdById FK
+        datetime createdAt
+        datetime closedAt "nullable"
+    }
+
+    POOL_MEMBER {
+        string id PK
+        string poolId FK
+        string userId FK
+        enum role "admin | participant"
+        int totalScore "pontuacao acumulada"
+        int rank "posicao no ranking"
+        datetime joinedAt
+    }
+
+    BET_CATEGORY {
+        string id PK
+        string poolId FK
+        string name "ex: Campeao, Artilheiro, Jogo Brasil x Argentina"
+        string description "detalhes da categoria"
+        enum type "single_choice | exact_score | open_text"
+        string options "JSON — opcoes disponiveis se single_choice"
+        int sortOrder "ordem de exibicao"
+        boolean isLocked "admin pode travar palpites"
+        datetime deadline "nullable — prazo para palpitar"
+    }
+
+    BET {
+        string id PK
+        string categoryId FK
+        string userId FK
+        string poolId FK
+        string value "o palpite em si (JSON flexivel)"
+        int pointsEarned "nullable — calculado apos resultado"
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    RESULT {
+        string id PK
+        string categoryId FK
+        string value "resultado real (mesmo formato do palpite)"
+        string enteredById FK "admin que inseriu"
+        datetime createdAt
+    }
+
+    SCORING_RULE {
+        string id PK
+        string poolId FK
+        string categoryId FK "nullable — regra global ou por categoria"
+        string name "ex: Acertou vencedor, Placar exato"
+        string condition "JSON — logica de comparacao"
+        int points "pontos concedidos"
+        int sortOrder "prioridade de avaliacao"
+    }

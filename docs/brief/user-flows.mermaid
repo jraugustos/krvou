@@ -1,0 +1,97 @@
+%% KRVOU — User Flows
+
+%% Fluxo 1: Cadastro e Autenticacao
+graph TD
+    subgraph AUTH ["Fluxo de Autenticacao"]
+        A1[Landing Page] --> A2{Tem conta?}
+        A2 -->|Sim| A3[Login]
+        A2 -->|Nao| A4[Signup]
+        A3 --> A5{Metodo}
+        A5 -->|Google| A6[OAuth Google]
+        A5 -->|Email/Senha| A7[Form Login]
+        A4 --> A8{Metodo}
+        A8 -->|Google| A6
+        A8 -->|Email/Senha| A9[Form Signup]
+        A6 --> A10[Home — Meus Boloes]
+        A7 --> A10
+        A9 --> A10
+    end
+
+---
+
+%% Fluxo 2: Criacao de Bolao (Wizard com IA)
+graph TD
+    subgraph WIZARD ["Jornada de Criacao — Wizard com IA"]
+        W1[Home — Clicar 'Criar Bolao'] --> W2[Step 1: Qual evento?]
+        W2 -->|Usuario descreve| W3[IA entende e sugere estrutura]
+        W3 --> W4[Step 2: Categorias de palpite]
+        W4 -->|IA sugere categorias| W5{Usuario aprova?}
+        W5 -->|Ajustar| W4
+        W5 -->|Sim| W6[Step 3: Regras de pontuacao]
+        W6 -->|IA sugere regras| W7{Usuario aprova?}
+        W7 -->|Ajustar| W6
+        W7 -->|Sim| W8[Step 4: Revisar tudo]
+        W8 --> W9{Confirmar?}
+        W9 -->|Editar| W4
+        W9 -->|Confirmar| W10[Bolao Criado!]
+        W10 --> W11[Copiar Link de Convite]
+        W10 --> W12[Ir para Painel do Bolao]
+    end
+
+---
+
+%% Fluxo 3: Convite e Entrada no Bolao
+graph TD
+    subgraph INVITE ["Jornada de Convite"]
+        I1[Recebe link do bolao] --> I2[Pagina publica do bolao]
+        I2 --> I3{Tem conta?}
+        I3 -->|Sim| I4[Login]
+        I3 -->|Nao| I5[Signup]
+        I4 --> I6[Entra no bolao como participante]
+        I5 --> I6
+        I6 --> I7[Tela de Palpites]
+    end
+
+---
+
+%% Fluxo 4: Registro de Palpites
+graph TD
+    subgraph BETS ["Jornada de Palpites"]
+        B1[Entrar no bolao] --> B2[Ver categorias de palpite]
+        B2 --> B3[Selecionar categoria]
+        B3 --> B4[Registrar palpite]
+        B4 --> B5{Mais categorias?}
+        B5 -->|Sim| B3
+        B5 -->|Nao| B6[Confirmar todos os palpites]
+        B6 --> B7[Palpites salvos]
+        B7 --> B8[Ver meus palpites + ranking]
+    end
+
+---
+
+%% Fluxo 5: Admin — Inserir Resultados
+graph TD
+    subgraph RESULTS ["Jornada de Resultados (Admin)"]
+        R1[Painel do Bolao] --> R2[Selecionar categoria/evento]
+        R2 --> R3[Inserir resultado real]
+        R3 --> R4[Confirmar resultado]
+        R4 --> R5[Sistema calcula pontuacao]
+        R5 --> R6[Ranking atualizado]
+        R6 --> R7{Todos resultados inseridos?}
+        R7 -->|Nao| R2
+        R7 -->|Sim| R8[Encerrar bolao]
+        R8 --> R9[Campeao definido!]
+    end
+
+---
+
+%% Fluxo 6: Acompanhamento (Participante)
+graph TD
+    subgraph TRACK ["Jornada de Acompanhamento"]
+        T1[Home — Meus Boloes] --> T2[Selecionar bolao]
+        T2 --> T3[Painel do Participante]
+        T3 --> T4[Ver meus palpites]
+        T3 --> T5[Ver ranking geral]
+        T3 --> T6[Ver resultados ja definidos]
+        T3 --> T7[Ver pontuacao detalhada]
+    end

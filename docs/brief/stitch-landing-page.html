@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KRVOU - Arcade Pool Organizer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Grotesk:wght@300;700;900&amp;family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#39ff14", // Neon Green
+              "secondary": "#ffff00", // Neon Yellow
+              "tertiary": "#bd00ff", // Neon Purple
+              "background": "#120224", // Deep Dark Purple
+              "surface": "#1f0438", // Lighter Dark Purple
+              "surface-container": "#2c1245",
+              "on-surface": "#e5e2e1",
+              "outline": "#43295b",
+              "on-primary": "#120224",
+              "on-secondary": "#120224",
+              "error": "#ff3131"
+            },
+            "borderRadius": {
+              "DEFAULT": "0px",
+              "lg": "0px",
+              "xl": "0px",
+              "full": "9999px"
+            },
+            "fontFamily": {
+              "headline": ["Press Start 2P", "cursive"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Space Grotesk", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .font-pixel { font-family: 'Press Start 2P', cursive; }
+        .pixel-grid {
+            background-image: radial-gradient(circle, #39ff14 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            background-color: #120224;
+        }
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .arcade-button {
+            box-shadow: 4px 4px 0px 0px #190032;
+            transition: all 0.1s;
+        }
+        .arcade-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px #190032;
+        }
+        .neon-glow {
+            filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.6));
+        }
+    </style>
+<style>
+        body { min-height: max(884px, 100dvh); }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar (from COMPONENTS_9) -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-4 h-16 bg-[#1f0438] border-b-4 border-[#2c1245] shadow-[4px_4px_0px_0px_#190032]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#39ff14] cursor-pointer">menu</span>
+<span class="text-lg md:text-xl font-pixel text-[#39ff14] drop-shadow-[2px_2px_0px_#2c1245] uppercase">KRVOU</span>
+</div>
+<div class="hidden md:flex gap-8">
+<a class="font-['Space_Grotesk'] font-bold uppercase text-[#39ff14] text-xs tracking-widest" href="#">Home</a>
+<a class="font-['Space_Grotesk'] font-bold uppercase text-white text-xs tracking-widest hover:text-[#39ff14] transition-all" href="#">Ranking</a>
+<a class="font-['Space_Grotesk'] font-bold uppercase text-white text-xs tracking-widest hover:text-[#39ff14] transition-all" href="#">Jogos</a>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[#39ff14]">notifications</span>
+</div>
+</header>
+<main class="pt-16 pb-24 md:pb-0 pixel-grid min-h-screen relative">
+<div class="crt-overlay absolute inset-0 z-10 pointer-events-none"></div>
+<!-- Hero Section -->
+<section class="relative px-6 py-12 md:py-24 flex flex-col items-center text-center overflow-hidden">
+<div class="absolute -top-10 -right-10 w-64 h-64 bg-tertiary/20 blur-[100px] rounded-full"></div>
+<div class="z-20 max-w-4xl">
+<h1 class="text-5xl md:text-8xl font-pixel text-primary mb-8 leading-tight tracking-tighter drop-shadow-[4px_4px_0px_#2c1245]">
+                KRVOU!
+            </h1>
+<p class="text-sm md:text-lg font-['Space_Grotesk'] font-bold text-white mb-12 max-w-2xl mx-auto leading-relaxed uppercase tracking-wider">
+                Onde a resenha vira jogo. <span class="text-secondary">Crie seu bolão com nossa IA</span> e vença seus amigos!
+            </p>
+<div class="flex flex-col md:flex-row gap-8 justify-center items-center">
+<button class="arcade-button relative px-8 py-5 bg-primary text-background font-pixel text-xs border-b-8 border-r-8 border-[#259d0e] hover:bg-[#4aff2a] transition-all">
+                    COMEÇAR AGORA
+                </button>
+<div class="flex -space-x-3">
+<img alt="pixel art avatar" class="w-10 h-10 border-2 border-white bg-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpWFlq5Ap4vZGcsAoSrU2oIldvwLJMWvjxg7kDBkmNuAfzoIkbWcGK-tTLzLqnSGc659KTBFMFmvhH6xPHJdlFPomAac7MId6k_RBqhju0r9IeeMz0NGf1oKdyPUUHeE3dQBGWQ2ksUf2haoIt1fsAtfX-X7HApVbsrmo8kXIqCJnJG9TsCVzapmjWmuUbk1w20UmlysBhpRlO8HlGoNv_JvajBnccps5NUDaaP7JcDfyj2Ozmf87q87x1JhvaE9R1b5SB3fX_zi1H"/>
+<img alt="pixel art avatar" class="w-10 h-10 border-2 border-white bg-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBghAoWkOXod7PUBo84mMyB1VMpX-5mZYTkgacHWs8Lj1uTD8SDqz0pgigp9edTRrNxDmlBEWd-usnH7eZWh0HkIXz5rMnKu31DwyhoDVUW4-ekR8eI0-G3vY4qY5mUckMa5uvy_VVOLCjKqxY_1Vuh8PGHMeLEwD9dnLC3_aLLxo87uz73iutWCkeFWDn2vzEFdoiQPRPQINWpqs0MkVxnsz8ZbC7yNBRBuW6zO9kfG7NlReN5ihsXsZqbIMzZ-EKYZJpfgdwPJGmq"/>
+<img alt="pixel art avatar" class="w-10 h-10 border-2 border-white bg-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwIypCN61guBxc87rmPTjFSCOCeROU_NExGVwCmCuwGIrZx2wepy3kxqF4saMR07CbyhmZptOIjCoDzkXiovPhOaPLotOOSCzvg1x4pjIP3mhMEzrejMj6Ovo--sVlrOVT9mKQapMbYni6YPby5dNu6YD84510rtmMHbZFYS4iWKEtl-YUzm8_ySinoMxDlchLEMt4L4POCWm_mWlvZFTqSaaNtG2qt-gSu8SHargReFtiQK2NlmbabnHBEdy7MsdHXkrfJiIYDt_Q"/>
+<div class="w-10 h-10 border-2 border-white bg-tertiary flex items-center justify-center text-white font-pixel text-[8px]">+1.2k</div>
+</div>
+</div>
+</div>
+<!-- Hero Graphic -->
+</section>
+<!-- Power Ups Section -->
+<section class="px-6 py-16 max-w-7xl mx-auto">
+<h2 class="text-2xl md:text-3xl font-pixel text-white mb-12 border-l-8 border-primary pl-6">POWER UPS</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Wizard IA -->
+<div class="md:col-span-8 bg-surface border-4 border-outline p-8 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-9xl text-primary">auto_awesome</span>
+</div>
+<span class="inline-block bg-primary text-background px-3 py-1 font-pixel text-[8px] mb-6">AI ENHANCED</span>
+<h3 class="text-xl md:text-3xl font-pixel text-white mb-6">WIZARD IA</h3>
+<p class="text-on-surface/70 font-label text-base max-w-md">O Claude ajuda você a definir as melhores regras, analisar estatísticas e criar bolões equilibrados automaticamente.</p>
+<div class="mt-8 flex gap-3">
+<div class="w-4 h-4 bg-primary shadow-[2px_2px_0px_white]"></div>
+<div class="w-4 h-4 bg-primary/50"></div>
+<div class="w-4 h-4 bg-primary/20"></div>
+</div>
+</div>
+<!-- Ranking -->
+<div class="md:col-span-4 bg-[#2c1245] border-4 border-primary p-8 flex flex-col justify-between shadow-[4px_4px_0px_0px_#39ff14]">
+<div>
+<span class="material-symbols-outlined text-primary text-5xl mb-6">leaderboard</span>
+<h3 class="text-lg font-pixel text-white mb-4">REAL-TIME RANKING</h3>
+<p class="text-white/60 font-label text-sm">Sua posição sobe assim que o juiz apita o fim do jogo. Sem espera.</p>
+</div>
+<div class="mt-8 border-t-2 border-primary/20 pt-4">
+<div class="flex justify-between items-center mb-3">
+<span class="text-[10px] font-pixel text-primary">#1 VOCÊ</span>
+<span class="text-[10px] font-pixel text-white">450 PTS</span>
+</div>
+<div class="w-full bg-background h-3 p-0.5">
+<div class="bg-primary w-3/4 h-full"></div>
+</div>
+</div>
+</div>
+<!-- Invite Link -->
+<div class="md:col-span-4 bg-surface border-4 border-outline p-8 group hover:border-secondary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-secondary text-5xl mb-6">share</span>
+<h3 class="text-lg font-pixel text-white mb-4">CONVITE RÁPIDO</h3>
+<p class="text-on-surface/60 font-label text-sm">Compartilhe o código da sala via WhatsApp e comece a resenha em segundos.</p>
+</div>
+<!-- VS Decorative -->
+<div class="md:col-span-8 bg-background border-4 border-outline p-2 flex items-center justify-center overflow-hidden">
+<div class="relative w-full h-48 flex items-center justify-around bg-[radial-gradient(#2c1245_1px,transparent_1px)] bg-[size:10px_10px]">
+<span class="material-symbols-outlined text-primary text-6xl opacity-30">sports_soccer</span>
+<div class="text-center">
+<div class="text-3xl md:text-5xl font-pixel text-white italic drop-shadow-[3px_3px_0px_#bd00ff]">VERSUS</div>
+<div class="text-primary font-pixel text-[8px] mt-4 tracking-[0.3em]">MULTIPLAYER MODE</div>
+</div>
+<span class="material-symbols-outlined text-primary text-6xl opacity-30">sports_esports</span>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="px-6 py-24 text-center bg-surface border-y-4 border-outline relative">
+<div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+<h2 class="text-3xl md:text-6xl font-pixel text-white mb-12 leading-tight relative z-10">
+            PRONTO PARA<br/><span class="text-primary">SER O LÍDER?</span>
+</h2>
+<button class="arcade-button relative px-10 py-6 bg-white text-background font-pixel text-sm border-b-8 border-r-8 border-[#ccc] hover:bg-primary transition-all z-10">
+            CRIAR MEU BOLÃO
+        </button>
+</section>
+<!-- Footer -->
+<footer class="px-6 py-16 text-center border-t-4 border-outline bg-background">
+<div class="text-primary font-pixel text-xl mb-8 drop-shadow-[0_0_5px_rgba(57,255,20,0.5)]">KRVOU</div>
+<p class="font-pixel text-[8px] text-white/40 uppercase tracking-widest mb-6">
+            CRIADO COM <span class="text-error">❤</span> PARA QUEM AMA O JOGO
+        </p>
+<div class="flex justify-center gap-8 text-white/30">
+<span class="material-symbols-outlined hover:text-primary transition-colors cursor-pointer">potted_plant</span>
+<span class="material-symbols-outlined hover:text-primary transition-colors cursor-pointer">terminal</span>
+<span class="material-symbols-outlined hover:text-primary transition-colors cursor-pointer">joystick</span>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar (from COMPONENTS_9) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 bg-[#1f0438] border-t-4 border-[#2c1245] shadow-[0_-4px_0px_0px_#190032] pb-safe">
+<a class="flex flex-col items-center justify-center bg-[#39ff14] text-[#1f0438] p-1 shadow-[4px_4px_0px_0px_#190032] w-[72px]" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Space_Grotesk'] text-[10px] uppercase font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#baccb0] p-1 hover:bg-[#2c1245] active:scale-95 transition-transform w-[72px]" href="#">
+<span class="material-symbols-outlined">add_box</span>
+<span class="font-['Space_Grotesk'] text-[10px] uppercase font-bold">Criar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#baccb0] p-1 hover:bg-[#2c1245] active:scale-95 transition-transform w-[72px]" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="font-['Space_Grotesk'] text-[10px] uppercase font-bold text-center leading-none">Meus Palpites</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#baccb0] p-1 hover:bg-[#2c1245] active:scale-95 transition-transform w-[72px]" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-['Space_Grotesk'] text-[10px] uppercase font-bold">Ranking</span>
+</a>
+</nav>
+</body></html>

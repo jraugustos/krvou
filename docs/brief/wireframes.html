@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframes — KRVOU</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
+
+    /* ===== PALETA RETRO ARCADE ===== */
+    :root {
+      --bg-deep:     #0c0c1d;      /* fundo da pagina */
+      --bg-surface:  #141432;       /* fundo dos frames */
+      --bg-card:     #1c1c42;       /* cards elevados */
+      --bg-elevated: #252555;       /* elementos em destaque */
+      --bg-input:    #0e0e28;       /* campos de input */
+
+      --accent:      #5bffa2;       /* verde menta principal */
+      --accent-dim:  #2a7d52;       /* verde apagado (bordas, hover) */
+      --gold:        #ffc84a;       /* dourado (ranking, destaques) */
+      --pink:        #ff6b9d;       /* rosa retro (alertas, pendente) */
+      --purple:      #9b7dff;       /* roxo lavanda (IA, secundario) */
+      --cyan:        #5bc8ff;       /* cyan (info, links) */
+
+      --text:        #e8e6f0;       /* texto principal */
+      --text-muted:  #7a7a9e;       /* texto secundario */
+      --text-dim:    #4e4e6e;       /* texto terciario */
+      --border:      #2a2a58;       /* bordas padrão */
+      --border-focus:#4a4a80;       /* bordas hover/focus */
+
+      --pixel-font: 'Press Start 2P', monospace;
+      --body-font:  'Inter', system-ui, -apple-system, sans-serif;
+      --pixel-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+      --card-shadow:  0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg-deep);
+      padding: 2rem 1rem;
+      color: var(--text);
+      font-family: var(--body-font);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      font-family: var(--pixel-font);
+      font-size: 1.4rem;
+      text-shadow: var(--pixel-shadow);
+      margin-bottom: 0.25rem;
+      letter-spacing: 2px;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* ===== FRAME (simula tela mobile) ===== */
+    .page {
+      background: var(--bg-surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 2.5rem;
+      max-width: 400px;
+      margin-inline: auto;
+      box-shadow: var(--card-shadow), 0 0 40px rgba(91,255,162,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Efeito sutil de scanline retro */
+    .page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        transparent 0px, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    .page > * { position: relative; z-index: 2; }
+    .page h2 {
+      font-size: 0.6rem;
+      color: var(--purple);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--pixel-font);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ===== COMPONENTES BASE ===== */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0.75rem;
+      background: var(--bg-card);
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border);
+    }
+    .nav .logo {
+      color: var(--accent);
+      font-family: var(--pixel-font);
+      font-size: 0.55rem;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(91,255,162,0.3);
+    }
+    .nav .avatar {
+      display: flex; align-items: center; gap: 0.4rem;
+      color: var(--text-muted); font-size: 0.8rem;
+    }
+    .nav .avatar-circle {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--bg-elevated); border: 1px solid var(--border-focus);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; color: var(--accent);
+    }
+
+    .btn {
+      background: var(--accent);
+      color: var(--bg-deep);
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      display: block;
+      font-family: var(--body-font);
+      box-shadow: 0 2px 0 var(--accent-dim);
+      transition: transform 0.1s;
+    }
+    .btn:active { transform: translateY(2px); box-shadow: none; }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      box-shadow: none;
+    }
+    .btn-google {
+      background: #fff;
+      color: #333;
+      box-shadow: 0 2px 0 #ddd;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.7rem;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .input {
+      border: 2px solid var(--border);
+      background: var(--bg-input);
+      color: var(--text);
+      padding: 0.65rem 0.75rem;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 0.8rem;
+      font-family: var(--body-font);
+      margin-bottom: 0.75rem;
+      outline: none;
+    }
+    .input:focus { border-color: var(--accent); }
+    .input::placeholder { color: var(--text-dim); }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      margin-bottom: 0.6rem;
+      background: var(--bg-card);
+      box-shadow: var(--card-shadow);
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: var(--border-focus); }
+    .card-title { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .card-subtitle { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      padding: 0.2rem 0.6rem; border-radius: 4px;
+      font-size: 0.6rem; font-weight: 600;
+      font-family: var(--body-font);
+      letter-spacing: 0.3px;
+    }
+    .badge-open   { background: rgba(91,255,162,0.12); color: var(--accent); border: 1px solid rgba(91,255,162,0.2); }
+    .badge-progress { background: rgba(255,200,74,0.12); color: var(--gold); border: 1px solid rgba(255,200,74,0.2); }
+    .badge-closed { background: rgba(255,107,157,0.12); color: var(--pink); border: 1px solid rgba(255,107,157,0.2); }
+    .badge-admin  { background: rgba(155,125,255,0.12); color: var(--purple); border: 1px solid rgba(155,125,255,0.2); }
+
+    .label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 500; }
+    .annotation {
+      font-size: 0.68rem; color: var(--gold); font-style: italic;
+      margin-top: 0.5rem; padding-top: 0.5rem;
+      border-top: 1px dashed var(--border);
+      line-height: 1.6;
+    }
+
+    .row { display: flex; gap: 0.6rem; margin-bottom: 0.6rem; }
+    .row > * { flex: 1; }
+
+    .stat-box {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .stat-number {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--pixel-font);
+      text-shadow: 0 0 6px rgba(91,255,162,0.2);
+    }
+    .stat-label { font-size: 0.6rem; color: var(--text-muted); margin-top: 0.35rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Wizard */
+    .wizard-header {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+    }
+    .step-number {
+      font-family: var(--pixel-font);
+      color: var(--accent);
+      font-size: 0.5rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    .step-title { font-weight: 600; font-size: 0.95rem; }
+
+    .progress-bar { height: 4px; background: var(--bg-elevated); border-radius: 2px; margin-bottom: 1.25rem; }
+    .progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--cyan)); }
+
+    /* IA Bubble */
+    .ai-bubble {
+      background: linear-gradient(135deg, rgba(155,125,255,0.15), rgba(91,200,255,0.08));
+      border: 1px solid rgba(155,125,255,0.25);
+      border-radius: 10px;
+      padding: 0.85rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      position: relative;
+    }
+    .ai-tag {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: var(--purple);
+      color: var(--bg-deep);
+      font-size: 0.5rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-bottom: 0.5rem;
+      font-family: var(--pixel-font);
+      letter-spacing: 0.5px;
+    }
+
+    /* Ranking */
+    .rank-row {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .rank-row:last-of-type { border-bottom: none; }
+    .rank-pos {
+      font-family: var(--pixel-font); color: var(--gold);
+      font-size: 0.6rem; min-width: 2rem; text-align: center;
+    }
+    .rank-name { flex: 1; font-size: 0.85rem; font-weight: 500; }
+    .rank-score { font-family: var(--pixel-font); color: var(--accent); font-size: 0.6rem; }
+    .rank-highlight { background: rgba(91,255,162,0.06); border-radius: 6px; }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 0.25rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border);
+    }
+    .tab {
+      flex: 1; text-align: center; padding: 0.5rem;
+      font-size: 0.72rem; color: var(--text-muted);
+      cursor: pointer; border-radius: 6px;
+      font-weight: 500;
+    }
+    .tab.active {
+      color: var(--accent);
+      background: var(--bg-elevated);
+      font-weight: 600;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      display: flex; justify-content: space-around;
+      padding: 0.6rem 0.5rem;
+      background: var(--bg-card);
+      border-radius: 10px;
+      margin-top: 1.25rem;
+      border: 1px solid var(--border);
+    }
+    .nav-item { text-align: center; font-size: 0.55rem; color: var(--text-dim); font-weight: 500; }
+    .nav-item.active { color: var(--accent); }
+    .nav-icon { font-size: 1.1rem; margin-bottom: 0.15rem; display: block; }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin: 1rem 0; color: var(--text-dim); font-size: 0.72rem;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* Selecao com checkbox pixel */
+    .check-card {
+      border: 2px solid var(--accent-dim);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .check-card.selected {
+      border-color: var(--accent);
+      background: rgba(91,255,162,0.04);
+    }
+    .check-card.unselected {
+      border-color: var(--border);
+      opacity: 0.65;
+    }
+
+    /* Score row */
+    .score-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; padding: 0.45rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .score-row:last-child { border-bottom: none; }
+    .score-value {
+      color: var(--accent);
+      font-family: var(--pixel-font);
+      font-size: 0.55rem;
+      background: rgba(91,255,162,0.08);
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h1>KRVOU</h1>
+  <p class="subtitle">Wireframes v2 — Mobile-first (400px)</p>
+
+  <!-- ==================== P00: Landing Page ==================== -->
+  <div class="page">
+    <h2>P00 — Landing Page</h2>
+
+    <div style="text-align:center; padding: 2.5rem 0 1.5rem;">
+      <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 1.8rem;
+                  text-shadow: var(--pixel-shadow), 0 0 20px rgba(91,255,162,0.25);
+                  letter-spacing: 3px; margin-bottom: 0.75rem;">
+        KRVOU
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; max-width: 280px; margin: 0 auto 0.5rem;">
+        Crie boloes para qualquer evento.
+      </p>
+      <p style="color: var(--purple); font-size: 0.75rem;">
+        Com IA que monta tudo pra voce.
+      </p>
+    </div>
+
+    <div style="padding: 0 0.5rem;">
+      <div class="btn" style="margin-bottom: 0.6rem;">Criar meu bolao</div>
+      <div class="btn btn-outline">Ja tenho convite</div>
+
+      <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem;">
+        <div style="text-align: center;">
+          <div style="font-family: var(--pixel-font); color: var(--gold); font-size: 0.7rem;">1.2K</div>
+          <div style="font-size: 0.6rem; color: var(--text-dim); margin-top: 0.2rem;">boloes criados</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-family: var(--pixel-font); color: var(--gold); font-size: 0.7rem;">8.5K</div>
+          <div style="font-size: 0.6rem; color: var(--text-dim); margin-top: 0.2rem;">participantes</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="annotation">
+      → CTA principal leva para signup/login<br>
+      → "Ja tenho convite" pede o link/codigo<br>
+      → Numeros de social proof (podem ser reais ou iniciais)
+    </p>
+  </div>
+
+  <!-- ==================== P01: Auth ==================== -->
+  <div class="page">
+    <h2>P01 — Login / Signup</h2>
+
+    <div style="text-align:center; margin-bottom: 2rem; padding-top: 0.5rem;">
+      <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.9rem;
+                  text-shadow: 0 0 12px rgba(91,255,162,0.2); letter-spacing: 2px;">
+        KRVOU
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.5rem;">
+        Entre pra comecar a palpitar
+      </p>
+    </div>
+
+    <div class="btn btn-google" style="margin-bottom: 0.6rem;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continuar com Google
+    </div>
+
+    <div class="divider">ou</div>
+
+    <div class="label">Email</div>
+    <input class="input" type="text" placeholder="seu@email.com">
+    <div class="label">Senha</div>
+    <input class="input" type="password" placeholder="••••••••">
+
+    <div class="btn" style="margin-top: 0.5rem;">Entrar</div>
+
+    <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 1.25rem;">
+      Nao tem conta? <span style="color: var(--accent); font-weight: 600; cursor: pointer;">Criar conta</span>
+    </p>
+
+    <p class="annotation">→ Toggle entre Login e Signup no mesmo layout<br>→ Google OAuth como opcao primaria</p>
+  </div>
+
+  <!-- ==================== P02: Home — Meus Boloes ==================== -->
+  <div class="page">
+    <h2>P02 — Home (Meus Boloes)</h2>
+
+    <div class="nav">
+      <span class="logo">KRVOU</span>
+      <div class="avatar">
+        <span>Junior</span>
+        <div class="avatar-circle">J</div>
+      </div>
+    </div>
+
+    <div class="btn" style="margin-bottom: 1.25rem;">+ Criar Bolao</div>
+
+    <div class="label" style="margin-bottom: 0.6rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px;">Meus Boloes</div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+        <div>
+          <div class="card-title">Copa do Mundo 2026</div>
+          <div class="card-subtitle">12 participantes</div>
+        </div>
+        <span class="badge badge-progress">Em andamento</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;
+                  padding-top: 0.5rem; border-top: 1px solid var(--border); font-size: 0.75rem;">
+        <span style="color: var(--text-muted);">Sua posicao:</span>
+        <span style="color: var(--gold); font-family: var(--pixel-font); font-size: 0.55rem;">3o — 45 pts</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+        <div>
+          <div class="card-title">Champions League 25/26</div>
+          <div class="card-subtitle">8 participantes</div>
+        </div>
+        <span class="badge badge-open">Aberto</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;
+                  padding-top: 0.5rem; border-top: 1px solid var(--border); font-size: 0.75rem;">
+        <span style="color: var(--text-muted);">Palpites pendentes:</span>
+        <span style="color: var(--pink); font-weight: 600;">5 categorias</span>
+      </div>
+    </div>
+
+    <div class="card" style="opacity: 0.7;">
+      <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+        <div>
+          <div class="card-title">Brasileirao 2025</div>
+          <div class="card-subtitle">20 participantes</div>
+        </div>
+        <span class="badge badge-closed">Encerrado</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;
+                  padding-top: 0.5rem; border-top: 1px solid var(--border); font-size: 0.75rem;">
+        <span style="color: var(--text-muted);">Resultado final:</span>
+        <span style="color: var(--gold); font-family: var(--pixel-font); font-size: 0.55rem;">CAMPEAO!</span>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <span class="nav-icon">⬡</span> Home
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">▲</span> Ranking
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">◆</span> Perfil
+      </div>
+    </div>
+
+    <p class="annotation">
+      → Cards com info contextual por status<br>
+      → Tap no card abre painel do bolao<br>
+      → Encerrado tem opacity reduzida
+    </p>
+  </div>
+
+  <!-- ==================== P03: Wizard Step 1 ==================== -->
+  <div class="page">
+    <h2>P03 — Wizard (Step 1: Evento)</h2>
+
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 25%;"></div>
+    </div>
+
+    <div class="wizard-header">
+      <div class="step-number">STEP 1 / 4</div>
+      <div class="step-title">Sobre o que e o bolao?</div>
+    </div>
+
+    <div class="ai-bubble">
+      <div class="ai-tag">IA</div>
+      <div>Me conta sobre o evento! Pode ser um campeonato, uma competicao, ou qualquer coisa com resultados. Quanto mais detalhes, melhor eu configuro tudo pra voce.</div>
+    </div>
+
+    <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+      <input class="input" style="margin: 0; flex: 1;" type="text" placeholder="Ex: Copa do Mundo 2026, quero...">
+      <div class="btn btn-sm" style="background: var(--accent); color: var(--bg-deep); font-size: 1rem; padding: 0.5rem 0.85rem;">→</div>
+    </div>
+
+    <div style="margin-top: 1rem;">
+      <div class="label" style="margin-bottom: 0.5rem;">Ou escolha um template:</div>
+      <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+        <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px;
+                    padding: 0.4rem 0.7rem; font-size: 0.7rem; color: var(--text-muted); cursor: pointer;">Copa do Mundo</div>
+        <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px;
+                    padding: 0.4rem 0.7rem; font-size: 0.7rem; color: var(--text-muted); cursor: pointer;">Champions</div>
+        <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px;
+                    padding: 0.4rem 0.7rem; font-size: 0.7rem; color: var(--text-muted); cursor: pointer;">Brasileirao</div>
+        <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px;
+                    padding: 0.4rem 0.7rem; font-size: 0.7rem; color: var(--text-muted); cursor: pointer;">Personalizado</div>
+      </div>
+    </div>
+
+    <p class="annotation">
+      → Input livre com processamento por IA<br>
+      → Templates como atalho (pre-carrega categorias e regras)<br>
+      → IA extrai: tipo, nome, escopo do evento
+    </p>
+  </div>
+
+  <!-- ==================== P03: Wizard Step 2 ==================== -->
+  <div class="page">
+    <h2>P03 — Wizard (Step 2: Categorias)</h2>
+
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 50%;"></div>
+    </div>
+
+    <div class="wizard-header">
+      <div class="step-number">STEP 2 / 4</div>
+      <div class="step-title">Categorias de palpite</div>
+    </div>
+
+    <div class="ai-bubble">
+      <div class="ai-tag">IA</div>
+      <div>Para um bolao da Copa do Mundo, sugiro estas categorias. Ative ou desative as que quiser:</div>
+    </div>
+
+    <div class="card check-card selected">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 18px; height: 18px; border-radius: 3px; background: var(--accent);
+                      display: flex; align-items: center; justify-content: center;
+                      font-size: 0.65rem; color: var(--bg-deep); font-weight: 700;">✓</div>
+          <div>
+            <div class="card-title" style="font-size: 0.8rem;">Campeao</div>
+            <div class="card-subtitle">Quem sera o campeao da Copa?</div>
+          </div>
+        </div>
+        <span style="color: var(--text-dim); font-size: 0.65rem; background: var(--bg-elevated);
+                      padding: 0.15rem 0.4rem; border-radius: 3px;">Escolha unica</span>
+      </div>
+    </div>
+
+    <div class="card check-card selected">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 18px; height: 18px; border-radius: 3px; background: var(--accent);
+                      display: flex; align-items: center; justify-content: center;
+                      font-size: 0.65rem; color: var(--bg-deep); font-weight: 700;">✓</div>
+          <div>
+            <div class="card-title" style="font-size: 0.8rem;">Artilheiro</div>
+            <div class="card-subtitle">Quem sera o artilheiro do torneio?</div>
+          </div>
+        </div>
+        <span style="color: var(--text-dim); font-size: 0.65rem; background: var(--bg-elevated);
+                      padding: 0.15rem 0.4rem; border-radius: 3px;">Escolha unica</span>
+      </div>
+    </div>
+
+    <div class="card check-card selected">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 18px; height: 18px; border-radius: 3px; background: var(--accent);
+                      display: flex; align-items: center; justify-content: center;
+                      font-size: 0.65rem; color: var(--bg-deep); font-weight: 700;">✓</div>
+          <div>
+            <div class="card-title" style="font-size: 0.8rem;">Resultados dos jogos</div>
+            <div class="card-subtitle">Palpite em todos os 64 jogos</div>
+          </div>
+        </div>
+        <span style="color: var(--text-dim); font-size: 0.65rem; background: var(--bg-elevated);
+                      padding: 0.15rem 0.4rem; border-radius: 3px;">Placar exato</span>
+      </div>
+    </div>
+
+    <div class="card check-card unselected">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 18px; height: 18px; border-radius: 3px; background: transparent;
+                      border: 2px solid var(--border-focus);
+                      display: flex; align-items: center; justify-content: center;"></div>
+          <div>
+            <div class="card-title" style="font-size: 0.8rem;">Zebra do torneio</div>
+            <div class="card-subtitle">Selecao que surpreende positivamente</div>
+          </div>
+        </div>
+        <span style="color: var(--text-dim); font-size: 0.65rem; background: var(--bg-elevated);
+                      padding: 0.15rem 0.4rem; border-radius: 3px;">Escolha unica</span>
+      </div>
+    </div>
+
+    <div class="ai-bubble" style="margin-top: 0.5rem;">
+      <div class="ai-tag">IA</div>
+      <div>Quer adicionar mais alguma? Posso sugerir: decepcao do torneio, melhor jogador, selecao revelacao...</div>
+    </div>
+
+    <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+      <div class="btn btn-outline" style="flex: 1; font-size: 0.75rem;">← Voltar</div>
+      <div class="btn" style="flex: 1; font-size: 0.75rem;">Proximo →</div>
+    </div>
+
+    <p class="annotation">
+      → Checkboxes toggle on/off por categoria<br>
+      → IA sugere mais opcoes via input<br>
+      → Cada card mostra tipo de palpite (escolha, placar, texto)
+    </p>
+  </div>
+
+  <!-- ==================== P03: Wizard Step 3 ==================== -->
+  <div class="page">
+    <h2>P03 — Wizard (Step 3: Regras)</h2>
+
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 75%;"></div>
+    </div>
+
+    <div class="wizard-header">
+      <div class="step-number">STEP 3 / 4</div>
+      <div class="step-title">Regras de pontuacao</div>
+    </div>
+
+    <div class="ai-bubble">
+      <div class="ai-tag">IA</div>
+      <div>Montei regras equilibradas pro seu bolao. Toque nos pontos pra ajustar:</div>
+    </div>
+
+    <div class="card" style="margin-bottom: 0.75rem;">
+      <div class="card-title" style="margin-bottom: 0.6rem; font-size: 0.75rem; color: var(--cyan);
+                                      text-transform: uppercase; letter-spacing: 0.5px;">Resultados dos Jogos</div>
+      <div class="score-row">
+        <span>Placar exato</span>
+        <span class="score-value">25 pts</span>
+      </div>
+      <div class="score-row">
+        <span>Vencedor + 1 gol de diferenca</span>
+        <span class="score-value">15 pts</span>
+      </div>
+      <div class="score-row">
+        <span>Acertou vencedor ou empate</span>
+        <span class="score-value">10 pts</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom: 0.6rem; font-size: 0.75rem; color: var(--gold);
+                                      text-transform: uppercase; letter-spacing: 0.5px;">Categorias Especiais</div>
+      <div class="score-row">
+        <span>Acertou campeao</span>
+        <span class="score-value">50 pts</span>
+      </div>
+      <div class="score-row">
+        <span>Acertou artilheiro</span>
+        <span class="score-value">40 pts</span>
+      </div>
+      <div class="score-row">
+        <span>Acertou zebra</span>
+        <span class="score-value">30 pts</span>
+      </div>
+    </div>
+
+    <div class="ai-bubble" style="margin-top: 0.5rem;">
+      <div class="ai-tag">IA</div>
+      <div>Os pontos estao equilibrados. Quer que eu ajuste algum valor?</div>
+    </div>
+
+    <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+      <div class="btn btn-outline" style="flex: 1; font-size: 0.75rem;">← Voltar</div>
+      <div class="btn" style="flex: 1; font-size: 0.75rem;">Proximo →</div>
+    </div>
+
+    <p class="annotation">→ Tap no valor de pontos abre editor inline<br>→ IA pode rebalancear se pedido</p>
+  </div>
+
+  <!-- ==================== P03: Wizard Step 4 ==================== -->
+  <div class="page">
+    <h2>P03 — Wizard (Step 4: Revisao)</h2>
+
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 100%;"></div>
+    </div>
+
+    <div class="wizard-header">
+      <div class="step-number">STEP 4 / 4</div>
+      <div class="step-title">Revisar e criar</div>
+    </div>
+
+    <div class="card" style="margin-bottom: 0.5rem;">
+      <div class="label">Nome do bolao</div>
+      <div class="card-title">Copa do Mundo 2026</div>
+    </div>
+    <div class="card" style="margin-bottom: 0.5rem;">
+      <div class="label">Evento</div>
+      <div class="card-title">Copa do Mundo FIFA — 64 jogos</div>
+    </div>
+    <div class="card" style="margin-bottom: 0.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="label">Categorias</div>
+          <div class="card-title">3 categorias ativas</div>
+        </div>
+        <span style="color: var(--cyan); font-size: 0.72rem; cursor: pointer;">Editar</span>
+      </div>
+      <div class="card-subtitle">Campeao, Artilheiro, 64 jogos</div>
+    </div>
+    <div class="card" style="margin-bottom: 0.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="label">Regras</div>
+          <div class="card-title">6 regras de pontuacao</div>
+        </div>
+        <span style="color: var(--cyan); font-size: 0.72rem; cursor: pointer;">Editar</span>
+      </div>
+      <div class="card-subtitle">10 a 50 pontos por acerto</div>
+    </div>
+
+    <div class="btn" style="margin-top: 1rem; font-size: 0.85rem; padding: 0.85rem;">
+      Criar Bolao
+    </div>
+
+    <p class="annotation">→ "Editar" volta ao step correspondente<br>→ Resumo completo antes de confirmar</p>
+  </div>
+
+  <!-- ==================== P04: Bolao Criado ==================== -->
+  <div class="page">
+    <h2>P04 — Bolao Criado + Convite</h2>
+
+    <div style="text-align: center; padding: 1.5rem 0;">
+      <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.65rem;
+                  letter-spacing: 2px; text-shadow: 0 0 12px rgba(91,255,162,0.3);">
+        BOLAO CRIADO!
+      </div>
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Copa do Mundo 2026</div>
+    </div>
+
+    <div class="card" style="text-align: center; padding: 1.25rem;">
+      <div class="label">Compartilhe o link de convite</div>
+      <div style="background: var(--bg-input); padding: 0.6rem; border-radius: 6px;
+                  font-size: 0.72rem; margin: 0.6rem 0; word-break: break-all;
+                  border: 1px solid var(--border); color: var(--text-muted); font-family: monospace;">
+        krvou.app/join/abc123xyz
+      </div>
+      <div class="btn" style="margin-top: 0.5rem; font-size: 0.8rem;">Copiar link</div>
+    </div>
+
+    <div class="btn btn-outline" style="margin-top: 0.6rem;">Ir para o painel do bolao →</div>
+
+    <p class="annotation">→ Link copiavel para WhatsApp, etc<br>→ Painel ja mostra participantes conforme entram</p>
+  </div>
+
+  <!-- ==================== P05: Convite Publico ==================== -->
+  <div class="page">
+    <h2>P05 — Pagina de Convite (publica)</h2>
+
+    <div style="text-align: center; padding: 0.5rem 0;">
+      <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.55rem;
+                  letter-spacing: 1px;">KRVOU</div>
+    </div>
+
+    <div class="card" style="text-align: center; padding: 1.5rem 1rem; margin-top: 0.75rem;">
+      <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.75rem;">Voce foi convidado para</div>
+      <div style="font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem;">Copa do Mundo 2026</div>
+      <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Criado por <span style="color: var(--accent);">Junior</span> · 12 participantes
+      </div>
+
+      <div style="text-align: left; padding: 0.75rem; background: var(--bg-elevated);
+                  border-radius: 6px; margin-bottom: 0.5rem;">
+        <div class="label" style="margin-bottom: 0.5rem; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px;">Categorias de palpite</div>
+        <div style="font-size: 0.8rem; color: var(--text); line-height: 1.8;">
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="color: var(--gold);">◆</span> Campeao
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="color: var(--gold);">◆</span> Artilheiro
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="color: var(--gold);">◆</span> Resultados dos jogos (64)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn" style="margin-top: 1rem;">Entrar no bolao</div>
+    <p style="text-align: center; font-size: 0.68rem; color: var(--text-dim); margin-top: 0.6rem;">
+      Precisa de conta para participar
+    </p>
+
+    <p class="annotation">→ Pagina publica — acessivel sem login<br>→ "Entrar" redireciona para auth e depois entra automaticamente</p>
+  </div>
+
+  <!-- ==================== P06: Registrar Palpites ==================== -->
+  <div class="page">
+    <h2>P06 — Registrar Palpites</h2>
+
+    <div class="nav">
+      <span style="color: var(--text-muted); font-size: 0.8rem; cursor: pointer;">← Voltar</span>
+      <span class="logo">KRVOU</span>
+      <div style="width: 48px;"></div>
+    </div>
+
+    <div style="margin-bottom: 0.75rem;">
+      <div class="card-title" style="font-size: 0.95rem;">Copa do Mundo 2026</div>
+      <div class="card-subtitle">2 de 3 categorias preenchidas</div>
+    </div>
+
+    <div class="progress-bar" style="margin-bottom: 1rem;">
+      <div class="progress-fill" style="width: 66%;"></div>
+    </div>
+
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="card-title" style="font-size: 0.8rem;">Campeao</div>
+          <div class="card-subtitle" style="color: var(--accent);">Seu palpite: Brasil</div>
+        </div>
+        <span class="badge badge-open">Feito</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="card-title" style="font-size: 0.8rem;">Artilheiro</div>
+          <div class="card-subtitle" style="color: var(--accent);">Seu palpite: Mbappe</div>
+        </div>
+        <span class="badge badge-open">Feito</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-left: 3px solid var(--pink);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="card-title" style="font-size: 0.8rem;">Resultados dos Jogos</div>
+          <div class="card-subtitle">0 de 64 jogos preenchidos</div>
+        </div>
+        <span class="badge badge-closed">Pendente</span>
+      </div>
+      <p class="annotation" style="border-top: none; padding-top: 0;">→ Tap abre lista de jogos para palpitar</p>
+    </div>
+
+    <div class="btn" style="margin-top: 1rem;">Salvar palpites</div>
+  </div>
+
+  <!-- ==================== P07: Palpite de Jogo ==================== -->
+  <div class="page">
+    <h2>P07 — Palpite: Placar de Jogo</h2>
+
+    <div class="nav">
+      <span style="color: var(--text-muted); font-size: 0.8rem; cursor: pointer;">← Voltar</span>
+      <span style="font-size: 0.75rem; color: var(--text); font-weight: 600;">Grupo A — Rodada 1</span>
+      <div style="width: 48px;"></div>
+    </div>
+
+    <div class="card" style="padding: 1rem;">
+      <div class="label" style="text-align: center; margin-bottom: 0.75rem;">Jogo 1 — 12/Jun 16h</div>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+        <div style="text-align: center; min-width: 60px;">
+          <div style="width: 36px; height: 36px; background: var(--bg-elevated); border-radius: 6px;
+                      display: flex; align-items: center; justify-content: center;
+                      margin: 0 auto 0.3rem; font-size: 1.2rem; border: 1px solid var(--border);">🇧🇷</div>
+          <div style="font-size: 0.72rem; font-weight: 600;">Brasil</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.35rem;">
+          <input class="input" style="width: 2.8rem; text-align: center; margin: 0;
+                                       font-size: 1.1rem; font-weight: 700; padding: 0.5rem;
+                                       font-family: var(--pixel-font); color: var(--accent);" value="2">
+          <span style="color: var(--text-dim); font-size: 0.9rem; font-weight: 700;">×</span>
+          <input class="input" style="width: 2.8rem; text-align: center; margin: 0;
+                                       font-size: 1.1rem; font-weight: 700; padding: 0.5rem;
+                                       font-family: var(--pixel-font); color: var(--accent);" value="1">
+        </div>
+        <div style="text-align: center; min-width: 60px;">
+          <div style="width: 36px; height: 36px; background: var(--bg-elevated); border-radius: 6px;
+                      display: flex; align-items: center; justify-content: center;
+                      margin: 0 auto 0.3rem; font-size: 1.2rem; border: 1px solid var(--border);">🇷🇸</div>
+          <div style="font-size: 0.72rem; font-weight: 600;">Servia</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 1rem;">
+      <div class="label" style="text-align: center; margin-bottom: 0.75rem;">Jogo 2 — 12/Jun 19h</div>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+        <div style="text-align: center; min-width: 60px;">
+          <div style="width: 36px; height: 36px; background: var(--bg-elevated); border-radius: 6px;
+                      display: flex; align-items: center; justify-content: center;
+                      margin: 0 auto 0.3rem; font-size: 1.2rem; border: 1px solid var(--border);">🇩🇪</div>
+          <div style="font-size: 0.72rem; font-weight: 600;">Alemanha</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.35rem;">
+          <input class="input" style="width: 2.8rem; text-align: center; margin: 0;
+                                       font-size: 1.1rem; font-weight: 700; padding: 0.5rem;
+                                       color: var(--text-dim);" placeholder="—">
+          <span style="color: var(--text-dim); font-size: 0.9rem; font-weight: 700;">×</span>
+          <input class="input" style="width: 2.8rem; text-align: center; margin: 0;
+                                       font-size: 1.1rem; font-weight: 700; padding: 0.5rem;
+                                       color: var(--text-dim);" placeholder="—">
+        </div>
+        <div style="text-align: center; min-width: 60px;">
+          <div style="width: 36px; height: 36px; background: var(--bg-elevated); border-radius: 6px;
+                      display: flex; align-items: center; justify-content: center;
+                      margin: 0 auto 0.3rem; font-size: 1.2rem; border: 1px solid var(--border);">🇯🇵</div>
+          <div style="font-size: 0.72rem; font-weight: 600;">Japao</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn" style="margin-top: 0.75rem;">Salvar palpites</div>
+
+    <p class="annotation">→ Scroll vertical, agrupados por rodada/fase<br>→ Jogo preenchido fica com borda verde</p>
+  </div>
+
+  <!-- ==================== P08: Painel Participante ==================== -->
+  <div class="page">
+    <h2>P08 — Painel do Bolao (Participante)</h2>
+
+    <div class="nav">
+      <span style="color: var(--text-muted); font-size: 0.8rem; cursor: pointer;">← Home</span>
+      <span class="logo" style="font-size: 0.45rem;">Copa 2026</span>
+      <div style="width: 48px;"></div>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active">Ranking</div>
+      <div class="tab">Palpites</div>
+      <div class="tab">Resultados</div>
+    </div>
+
+    <!-- Destaque do usuario -->
+    <div class="card" style="border: 1px solid var(--accent-dim); text-align: center; padding: 1rem; margin-bottom: 1rem;
+                              background: linear-gradient(135deg, rgba(91,255,162,0.04), rgba(91,200,255,0.02));">
+      <div class="label">Sua posicao</div>
+      <div style="font-family: var(--pixel-font); color: var(--gold); font-size: 1.6rem;
+                  text-shadow: var(--pixel-shadow); margin: 0.3rem 0;">3o</div>
+      <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.7rem;">45 pts</div>
+      <div style="font-size: 0.65rem; color: var(--text-dim); margin-top: 0.4rem;">17 pts atras do 1o lugar</div>
+    </div>
+
+    <!-- Ranking -->
+    <div style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border); overflow: hidden;">
+      <div class="rank-row" style="background: rgba(255,200,74,0.05);">
+        <span class="rank-pos" style="font-size: 0.7rem;">1</span>
+        <span class="rank-name">Carlos</span>
+        <span class="rank-score">62</span>
+      </div>
+      <div class="rank-row">
+        <span class="rank-pos" style="font-size: 0.7rem;">2</span>
+        <span class="rank-name">Maria</span>
+        <span class="rank-score">58</span>
+      </div>
+      <div class="rank-row rank-highlight">
+        <span class="rank-pos" style="font-size: 0.7rem;">3</span>
+        <span class="rank-name" style="color: var(--accent); font-weight: 600;">Voce</span>
+        <span class="rank-score">45</span>
+      </div>
+      <div class="rank-row">
+        <span class="rank-pos" style="font-size: 0.7rem;">4</span>
+        <span class="rank-name">Pedro</span>
+        <span class="rank-score">38</span>
+      </div>
+      <div class="rank-row">
+        <span class="rank-pos" style="font-size: 0.7rem;">5</span>
+        <span class="rank-name">Ana</span>
+        <span class="rank-score">35</span>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <span class="nav-icon">⬡</span> Home
+      </div>
+      <div class="nav-item active">
+        <span class="nav-icon">▲</span> Ranking
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">◆</span> Perfil
+      </div>
+    </div>
+
+    <p class="annotation">→ Tabs alternam entre ranking, palpites e resultados<br>→ Posicao do usuario sempre destacada com cor<br>→ Diferenca de pontos para o lider</p>
+  </div>
+
+  <!-- ==================== P09: Painel Admin ==================== -->
+  <div class="page">
+    <h2>P09 — Painel do Bolao (Admin)</h2>
+
+    <div class="nav">
+      <span style="color: var(--text-muted); font-size: 0.8rem; cursor: pointer;">← Home</span>
+      <span class="logo" style="font-size: 0.45rem;">Copa 2026</span>
+      <span class="badge badge-admin">Admin</span>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active">Resultados</div>
+      <div class="tab">Membros</div>
+      <div class="tab">Config</div>
+    </div>
+
+    <div class="row">
+      <div class="stat-box">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Participantes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" style="color: var(--gold);">18<span style="font-size: 0.6rem; color: var(--text-dim);">/64</span></div>
+        <div class="stat-label">Resultados</div>
+      </div>
+    </div>
+
+    <div class="label" style="margin: 1rem 0 0.5rem; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px;">Pendentes</div>
+
+    <div class="card" style="border-left: 3px solid var(--gold);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="card-title" style="font-size: 0.8rem;">Alemanha × Japao</div>
+          <div class="card-subtitle">Grupo A — Rodada 1</div>
+        </div>
+        <div class="btn btn-sm">Inserir</div>
+      </div>
+    </div>
+
+    <div class="card" style="border-left: 3px solid var(--gold);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="card-title" style="font-size: 0.8rem;">Franca × Australia</div>
+          <div class="card-subtitle">Grupo B — Rodada 1</div>
+        </div>
+        <div class="btn btn-sm">Inserir</div>
+      </div>
+    </div>
+
+    <div class="label" style="margin: 1rem 0 0.5rem; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px;">Ja inseridos</div>
+
+    <div class="card" style="border-left: 3px solid var(--accent); opacity: 0.7;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="card-title" style="font-size: 0.8rem;">Brasil 2 × 1 Servia</div>
+          <div class="card-subtitle">Grupo A — Rodada 1</div>
+        </div>
+        <span class="badge badge-open">Inserido</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 1rem;">
+      <div class="btn btn-outline" style="font-size: 0.75rem;">Compartilhar link de convite</div>
+    </div>
+
+    <p class="annotation">
+      → Pendentes no topo com destaque<br>
+      → "Inserir" abre input de placar (mesmo layout do P07)<br>
+      → Tab "Config" tem opcao de encerrar bolao
+    </p>
+  </div>
+
+  <!-- ==================== P10: Encerramento ==================== -->
+  <div class="page">
+    <h2>P10 — Bolao Encerrado</h2>
+
+    <div style="text-align: center; padding: 2rem 0 1rem;">
+      <div style="font-family: var(--pixel-font); color: var(--gold); font-size: 0.8rem;
+                  text-shadow: var(--pixel-shadow), 0 0 16px rgba(255,200,74,0.3);
+                  letter-spacing: 2px; margin-bottom: 0.3rem;">
+        GAME OVER
+      </div>
+      <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.5rem;
+                  letter-spacing: 1px;">
+        Copa do Mundo 2026
+      </div>
+    </div>
+
+    <!-- Podio -->
+    <div style="display: flex; align-items: flex-end; justify-content: center; gap: 0.5rem;
+                margin-bottom: 1.5rem; padding: 0 0.5rem;">
+      <!-- 2o lugar -->
+      <div style="text-align: center; flex: 1;">
+        <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.3rem;">Maria</div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border);
+                    border-radius: 6px 6px 0 0; padding: 0.75rem 0.5rem; height: 70px;
+                    display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div style="font-family: var(--pixel-font); color: #c0c0c0; font-size: 0.7rem;">2o</div>
+          <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.55rem; margin-top: 0.2rem;">128</div>
+        </div>
+      </div>
+      <!-- 1o lugar -->
+      <div style="text-align: center; flex: 1;">
+        <div style="font-size: 0.65rem; color: var(--gold); margin-bottom: 0.3rem; font-weight: 600;">Carlos</div>
+        <div style="background: var(--bg-card); border: 2px solid var(--gold);
+                    border-radius: 6px 6px 0 0; padding: 0.75rem 0.5rem; height: 95px;
+                    display: flex; flex-direction: column; justify-content: center; align-items: center;
+                    box-shadow: 0 0 16px rgba(255,200,74,0.15);">
+          <div style="font-family: var(--pixel-font); color: var(--gold); font-size: 0.9rem;
+                      text-shadow: 0 0 8px rgba(255,200,74,0.3);">1o</div>
+          <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.65rem; margin-top: 0.3rem;">142</div>
+        </div>
+      </div>
+      <!-- 3o lugar -->
+      <div style="text-align: center; flex: 1;">
+        <div style="font-size: 0.65rem; color: var(--accent); margin-bottom: 0.3rem;">Voce</div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border);
+                    border-radius: 6px 6px 0 0; padding: 0.75rem 0.5rem; height: 55px;
+                    display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div style="font-family: var(--pixel-font); color: #cd7f32; font-size: 0.7rem;">3o</div>
+          <div style="font-family: var(--pixel-font); color: var(--accent); font-size: 0.55rem; margin-top: 0.2rem;">115</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ranking completo -->
+    <div style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border); overflow: hidden;">
+      <div class="rank-row">
+        <span class="rank-pos" style="font-size: 0.6rem;">4</span>
+        <span class="rank-name">Pedro</span>
+        <span class="rank-score">98</span>
+      </div>
+      <div class="rank-row">
+        <span class="rank-pos" style="font-size: 0.6rem;">5</span>
+        <span class="rank-name">Ana</span>
+        <span class="rank-score">87</span>
+      </div>
+      <div style="text-align: center; padding: 0.5rem; font-size: 0.7rem; color: var(--text-dim);">
+        + 7 participantes
+      </div>
+    </div>
+
+    <div class="btn" style="margin-top: 1.25rem;">Ver pontuacao detalhada</div>
+    <div class="btn btn-outline" style="margin-top: 0.5rem;">Criar novo bolao</div>
+
+    <p class="annotation">→ Podio visual com alturas proporcionais<br>→ Estetica arcade "GAME OVER"<br>→ Ranking completo abaixo do podio</p>
+  </div>
+
+</body>
+</html>
