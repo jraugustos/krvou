@@ -1,14 +1,15 @@
 # Issues — KRVOU
 
 > Baseado em: docs/SPEC.md
-> Total: 12 issues | Concluidas: 0/12
+> Total: 12 issues | Concluidas: 1/12
 
 ---
 
 ## Fundacao Visual
 
-### issue-01 — Design System + Componentes Globais
+### issue-01 — Design System + Componentes Globais ✅
 
+**Status:** Concluida
 **Componentes:** C36, C37, C38, C39
 **Ref:** Secao Design System da spec
 
@@ -34,15 +35,15 @@
 **Responsividade:** mobile-first
 
 **Criterio de aceitacao:**
-- [ ] Tailwind config tem todas as cores do design system
-- [ ] Fontes Space Grotesk e Inter carregam corretamente
-- [ ] Scanline overlay visivel em todas as paginas
-- [ ] Toast renderiza nos 3 tipos (sucesso, erro, info)
-- [ ] ConfirmModal abre/fecha com overlay
-- [ ] LoadingState e ErrorState renderizam
-- [ ] Botoes arcade com 4px offset e press animation
-- [ ] Inputs com focus glow neon green
-- [ ] Border-radius 0px em tudo
+- [x] Tailwind config tem todas as cores do design system
+- [x] Fontes Space Grotesk e Inter carregam corretamente
+- [x] Scanline overlay visivel em todas as paginas
+- [x] Toast renderiza nos 3 tipos (sucesso, erro, info)
+- [x] ConfirmModal abre/fecha com overlay
+- [x] LoadingState e ErrorState renderizam
+- [x] Botoes arcade com 4px offset e press animation
+- [x] Inputs com focus glow neon green
+- [x] Border-radius 0px em tudo
 
 ---
 
@@ -50,8 +51,9 @@
 
 ---
 
-### issue-02 — Landing Page (P01)
+### issue-02 — Landing Page (P01) 🔧
 
+**Status:** Em progresso (Subtask V)
 **Pagina:** P01
 **Componentes:** C01, C02, C03, C04, C05
 **Comportamentos:** B01, B02
@@ -91,8 +93,9 @@
 
 ## Fundacao
 
-### issue-03 — Auth / Login & Signup (P02)
+### issue-03 — Auth / Login & Signup (P02) 🔧
 
+**Status:** Em progresso (Subtask V + F)
 **Pagina:** P02
 **Componentes:** C07
 **Comportamentos:** B04, B05, B06, B07
@@ -828,8 +831,8 @@ issue-01 (Design System)
 
 ## Ordem de Implementacao
 
-1. **issue-01** — Design System + Globais (fundacao visual)
-2. **issue-02** + **issue-03** — Landing + Auth (paralelo)
+1. ~~**issue-01** — Design System + Globais (fundacao visual)~~ ✅
+2. **issue-02** + **issue-03** — Landing + Auth (paralelo) 🔧 em progresso
 3. **issue-04** — Home/Dashboard
 4. **issue-05** — Wizard de Criacao
 5. **issue-06** + **issue-07** — Bolao Criado + Convite (paralelo)

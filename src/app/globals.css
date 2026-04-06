@@ -44,6 +44,19 @@
   --input: #3c4b35;
   --ring: #39ff14;
 
+  /* Status */
+  --status-finished: #ff6b9d;
+  --status-finished-foreground: #3a0018;
+
+  /* Wizard — AI Bubble & Accents */
+  --accent-cyan: #00e5ff;
+  --accent-cyan-dim: #00b8cc;
+  --ai-bubble-from: rgba(189, 0, 255, 0.15);
+  --ai-bubble-to: rgba(0, 229, 255, 0.10);
+  --ai-bubble-border: rgba(189, 0, 255, 0.3);
+  --scoring-cyan: #00e5ff;
+  --scoring-gold: #e4e403;
+
   /* Error */
   --destructive: #ff3131;
   --destructive-foreground: #ffffff;
@@ -119,6 +132,12 @@
   --color-arcade-shadow-primary: var(--arcade-shadow-primary);
   --color-arcade-shadow-secondary: var(--arcade-shadow-secondary);
   --color-destructive-shadow: var(--destructive-shadow);
+  --color-status-finished: var(--status-finished);
+  --color-status-finished-foreground: var(--status-finished-foreground);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-cyan-dim: var(--accent-cyan-dim);
+  --color-scoring-cyan: var(--scoring-cyan);
+  --color-scoring-gold: var(--scoring-gold);
 
   /* Surface hierarchy */
   --color-surface-lowest: var(--surface-lowest);
@@ -166,6 +185,7 @@
   --shadow-arcade-destructive: 4px 4px 0px 0px var(--destructive-shadow);
   --shadow-arcade-dark: 4px 4px 0px 0px rgba(0, 0, 0, 0.5);
   --shadow-arcade-toast: 4px 4px 0px 0px rgba(0, 0, 0, 0.3);
+  --shadow-arcade-dark-invert: 0px -4px 0px 0px rgba(0, 0, 0, 0.5);
 
   /* Glow shadows (focus/validation states) */
   --shadow-glow-primary: 0 0 8px color-mix(in srgb, var(--primary) 40%, transparent);

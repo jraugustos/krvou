@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Space+Grotesk:wght@300;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#053900",
+                        "secondary-fixed-dim": "#cdcd00",
+                        "primary-fixed-dim": "#2ae500",
+                        "surface-dim": "#1f0438",
+                        "primary-fixed": "#79ff5b",
+                        "on-primary-container": "#107100",
+                        "surface": "#1f0438",
+                        "surface-container-highest": "#43295b",
+                        "outline": "#85967c",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "surface-variant": "#43295b",
+                        "on-surface-variant": "#baccb0",
+                        "inverse-on-surface": "#3e2457",
+                        "surface-container-lowest": "#190032",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "inverse-primary": "#106e00",
+                        "tertiary": "#fff8f9",
+                        "primary": "#efffe3",
+                        "on-secondary-fixed-variant": "#494900",
+                        "on-secondary-container": "#646400",
+                        "on-background": "#f0dbff",
+                        "on-secondary-fixed": "#1d1d00",
+                        "secondary-fixed": "#eaea13",
+                        "on-tertiary-fixed": "#380038",
+                        "on-primary-fixed": "#022100",
+                        "on-tertiary": "#5b005b",
+                        "on-surface": "#f0dbff",
+                        "secondary": "#fffeac",
+                        "surface-tint": "#2ae500",
+                        "tertiary-fixed": "#ffd7f5",
+                        "secondary-container": "#e4e403",
+                        "surface-container": "#2c1245",
+                        "background": "#1f0438",
+                        "inverse-surface": "#f0dbff",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "tertiary-container": "#ffcff5",
+                        "on-secondary": "#323200",
+                        "on-tertiary-container": "#ad00ad",
+                        "surface-bright": "#472d60",
+                        "on-primary-fixed-variant": "#095300",
+                        "surface-container-high": "#371e50",
+                        "primary-container": "#39ff14",
+                        "outline-variant": "#3c4b35",
+                        "surface-container-low": "#280e40",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .arcade-inset {
+            box-shadow: inset 4px 4px 0px rgba(0, 0, 0, 0.5);
+        }
+        .arcade-button-3d {
+            box-shadow: 4px 4px 0px #095300;
+        }
+        .arcade-button-3d:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px #095300;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen relative overflow-x-hidden">
+<!-- Scanline Overlay -->
+<div class="fixed inset-0 scanlines z-[999] opacity-30"></div>
+<!-- Main Content Container -->
+<main class="flex flex-col items-center justify-center min-h-screen p-6 relative z-10">
+<!-- Brand Identity Container -->
+<div class="mb-12 text-center">
+<h1 class="text-6xl md:text-8xl font-headline font-black tracking-[0.2em] text-primary-container drop-shadow-[0_0_15px_rgba(57,255,20,0.8)] uppercase">
+                KRVOU
+            </h1>
+<p class="mt-4 font-headline text-secondary tracking-widest text-sm md:text-base font-bold uppercase">
+                Terminal de Apostas Retro-Futurista
+            </p>
+</div>
+<!-- Auth Card -->
+<div class="w-full max-w-md bg-surface-container p-8 md:p-10 border-l-4 border-t-4 border-surface-container-highest arcade-inset">
+<!-- Google Auth -->
+<button class="w-full h-14 bg-white hover:bg-neutral-100 text-neutral-900 flex items-center justify-center gap-4 transition-all duration-75 arcade-button-3d mb-8 font-bold font-headline uppercase tracking-tight active:translate-y-1 active:translate-x-1 active:shadow-none" style="box-shadow: 4px 4px 0px #9ca3af;">
+<svg fill="none" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                Continuar com Google
+            </button>
+<!-- Divider -->
+<div class="flex items-center gap-4 mb-8">
+<div class="h-1 flex-1 bg-surface-container-highest"></div>
+<span class="font-headline font-black text-on-surface-variant text-xs uppercase tracking-[0.3em]">ou</span>
+<div class="h-1 flex-1 bg-surface-container-highest"></div>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-6">
+<!-- Nome (Visible for Sign Up intent - context specific) -->
+<div class="hidden">
+<label class="block font-headline text-primary font-bold text-xs uppercase tracking-widest mb-2">Nome</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-0 p-4 text-on-surface font-headline placeholder:text-on-surface-variant/30 focus:ring-2 focus:ring-primary-container arcade-inset transition-all duration-75" placeholder="INSIRA SEU NOME" type="text"/>
+<div class="absolute inset-0 border-2 border-primary-container opacity-0 group-focus-within:opacity-100 blur-[4px] pointer-events-none"></div>
+</div>
+</div>
+<!-- Email -->
+<div>
+<label class="block font-headline text-primary font-bold text-xs uppercase tracking-widest mb-2">Email</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-0 p-4 text-on-surface font-headline placeholder:text-on-surface-variant/30 focus:ring-2 focus:ring-primary-container arcade-inset transition-all duration-75" placeholder="USER@TERMINAL.NET" type="email"/>
+<div class="absolute inset-0 border-2 border-primary-container opacity-0 group-focus-within:opacity-100 blur-[4px] pointer-events-none"></div>
+</div>
+</div>
+<!-- Senha -->
+<div>
+<label class="block font-headline text-primary font-bold text-xs uppercase tracking-widest mb-2">Senha</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-0 p-4 text-on-surface font-headline placeholder:text-on-surface-variant/30 focus:ring-2 focus:ring-primary-container arcade-inset transition-all duration-75" placeholder="********" type="password"/>
+<div class="absolute inset-0 border-2 border-primary-container opacity-0 group-focus-within:opacity-100 blur-[4px] pointer-events-none"></div>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full h-16 bg-primary-container text-on-primary font-headline font-black text-xl uppercase tracking-widest arcade-button-3d arcade-button-3d transition-all duration-75 hover:bg-primary-fixed-dim" type="submit">
+                    ENTRAR NO TERMINAL
+                </button>
+</form>
+<!-- Toggle Link -->
+<div class="mt-8 text-center">
+<a class="inline-block font-headline text-on-surface-variant hover:text-primary-container transition-colors duration-75 text-sm font-bold uppercase tracking-widest" href="#">
+                    Não possui conta? <span class="text-secondary border-b-2 border-dotted border-secondary ml-1">Criar Conta</span>
+</a>
+</div>
+</div>
+<!-- System Status Footer -->
+<div class="mt-12 flex flex-col items-center gap-2 opacity-50">
+<div class="flex items-center gap-4 text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-[0.2em]">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 bg-primary-container rounded-full animate-pulse"></span>
+                    SISTEMA ONLINE
+                </div>
+<span>v 2.0.84</span>
+<span>ENC-MOD: AES-256</span>
+</div>
+</div>
+</main>
+<!-- Decorative Background Elements -->
+<div class="fixed top-0 right-0 p-8 z-0 hidden lg:block opacity-20 pointer-events-none">
+<div class="text-[120px] font-black text-surface-container-highest leading-none select-none">
+            AUTH_MODE<br/>002
+        </div>
+</div>
+<div class="fixed bottom-0 left-0 p-8 z-0 hidden lg:block opacity-20 pointer-events-none">
+<div class="font-headline font-bold text-primary-container uppercase tracking-widest flex flex-col gap-1">
+<span>READY PLAYER 1</span>
+<span>INSERT COIN TO CONTINUE</span>
+<div class="w-48 h-2 bg-primary-container mt-2"></div>
+</div>
+</div>
+</body></html>

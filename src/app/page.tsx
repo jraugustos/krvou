@@ -1,12 +1,21 @@
-export default function Home() {
+import { TopBar } from "@/components/layouts/TopBar";
+import { HeroSection } from "@/components/features/landing/HeroSection";
+import { PowerUpsGrid } from "@/components/features/landing/PowerUpsGrid";
+import { CTASection } from "@/components/features/landing/CTASection";
+import { Footer } from "@/components/features/landing/Footer";
+
+export default function LandingPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="font-pixel text-3xl text-primary md:text-5xl">KRVOU</h1>
-        <p className="mt-4 font-heading text-lg text-secondary">
-          Em construcao
-        </p>
-      </div>
-    </main>
+    <>
+      <TopBar />
+
+      <main className="pt-16">
+        <HeroSection />
+        <PowerUpsGrid />
+        <CTASection />
+      </main>
+
+      <Footer />
+    </>
   );
 }
