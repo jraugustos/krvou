@@ -38,7 +38,8 @@ export async function analyzeEventAction(
   try {
     const data = await analyzeEvent(parsed.data.eventText);
     return { success: true, data };
-  } catch {
+  } catch (error) {
+    console.error("[analyzeEventAction] AI call failed:", error);
     return {
       success: false,
       error: "Nao consegui entender o evento. Tente descrever com mais detalhes.",

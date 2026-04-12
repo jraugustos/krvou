@@ -1,7 +1,8 @@
 # Issues — KRVOU
 
 > Baseado em: docs/SPEC.md
-> Total: 12 issues | Concluidas: 1/12
+> Total: 12 issues | Concluidas: 1/12 | Em progresso: 2/12
+> Pendencias externas: ver [docs/PENDING.md](PENDING.md)
 
 ---
 
@@ -76,13 +77,13 @@
 **Design tokens:** usar tokens da issue-01
 
 **Criterio de aceitacao:**
-- [ ] Pagina renderiza sem erros na rota `/`
+- [x] Pagina renderiza sem erros na rota `/`
 - [ ] Layout correto em mobile, tablet e desktop
-- [ ] Todos os 5 componentes visuais presentes
-- [ ] Grid bento responsivo (empilha em mobile)
-- [ ] CTAs navegam para `/auth` (B01, B02)
-- [ ] Estetica arcade: pixel grid, CRT overlay, neon glow, 0px radius
-- [ ] Dados mockados (contador usuarios, avatars)
+- [x] Todos os 5 componentes visuais presentes
+- [x] Grid bento responsivo (empilha em mobile)
+- [x] CTAs navegam para `/auth` (B01, B02)
+- [x] Estetica arcade: pixel grid, CRT overlay, neon glow, 0px radius
+- [x] Dados mockados (contador usuarios, avatars)
 
 ---
 
@@ -115,12 +116,12 @@
 **Design tokens:** input inset, focus glow, botao arcade
 
 **Criterio de aceitacao (V):**
-- [ ] Pagina renderiza na rota `/auth`
-- [ ] Toggle login/signup funciona visualmente (B07)
-- [ ] Campos limpos ao trocar modo
+- [x] Pagina renderiza na rota `/auth`
+- [x] Toggle login/signup funciona visualmente (B07)
+- [x] Campos limpos ao trocar modo
 - [ ] Layout correto mobile e desktop
-- [ ] Botao Google com icone SVG
-- [ ] Campos com estilo input arcade (inset, focus glow)
+- [x] Botao Google com icone SVG
+- [x] Campos com estilo input arcade (inset, focus glow)
 
 ---
 
@@ -161,15 +162,15 @@
 - Session: JWT strategy
 
 **Criterio de aceitacao (F):**
-- [ ] Login Google funciona end-to-end
-- [ ] Login email/senha funciona
-- [ ] Signup cria usuario com senha hashed
-- [ ] Validacoes client-side para todos os edge cases
-- [ ] Mensagens de erro corretas e genericas (nao revelam qual campo errou no login)
-- [ ] Redirect para `/home` apos auth
-- [ ] Redirect para convite pendente se veio de link (cookie/session com inviteCode)
-- [ ] Sessao persiste entre refreshes
-- [ ] Middleware protege rotas autenticadas
+- [ ] Login Google funciona end-to-end ⚠️ (pendencia P01 — ver PENDING.md)
+- [x] Login email/senha funciona
+- [x] Signup cria usuario com senha hashed
+- [x] Validacoes client-side para todos os edge cases
+- [x] Mensagens de erro corretas e genericas (nao revelam qual campo errou no login)
+- [x] Redirect para `/home` apos auth
+- [ ] Redirect para convite pendente se veio de link (cookie/session com inviteCode) — adiado para issue-07
+- [x] Sessao persiste entre refreshes
+- [x] Middleware protege rotas autenticadas
 
 ---
 

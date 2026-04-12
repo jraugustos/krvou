@@ -28,14 +28,14 @@ export function BottomNavBar() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex flex-1 flex-col items-center gap-1 py-2 transition-colors",
+              "flex flex-1 flex-col items-center gap-1 overflow-hidden py-2 transition-colors",
               isActive
                 ? "bg-primary text-background"
                 : "text-on-surface-variant hover:text-primary"
             )}
           >
             <item.icon className="size-5" />
-            <span className="font-heading text-[10px] uppercase tracking-wider">
+            <span className="font-heading text-[10px] uppercase tracking-wide truncate">
               {item.label}
             </span>
           </Link>
