@@ -2,18 +2,19 @@
 
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
-import type { Category, CategoryType } from "@/types/wizard";
+import type { WizardCategory } from "@/types/wizard";
 
 interface CategoryCheckCardProps {
-  category: Category;
+  category: WizardCategory;
   selected: boolean;
   onToggle: () => void;
 }
 
-const TYPE_LABELS: Record<CategoryType, string> = {
+const TYPE_LABELS: Record<string, string> = {
   single_choice: "Escolha unica",
   exact_score: "Placar exato",
   free_text: "Texto livre",
+  custom: "Personalizada",
 };
 
 export function CategoryCheckCard({
@@ -50,11 +51,20 @@ export function CategoryCheckCard({
         <span className="font-heading text-sm font-bold text-foreground">
           {category.name}
         </span>
-        <span className="font-sans text-xs text-on-surface-variant">
-          {category.description}
-        </span>
-        <span className="mt-1 inline-flex w-fit border-2 border-outline-variant px-2 py-0.5 font-heading text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">
-          {TYPE_LABELS[category.type]}
+        {category.description && (
+          <span className="font-sans text-xs text-on-surface-variant">
+            {category.description}
+          </span>
+        )}
+        <span
+          className={cn(
+            "mt-1 inline-flex w-fit border-2 px-2 py-0.5 font-heading text-[10px] font-medium uppercase tracking-wider",
+            category.isCustom
+              ? "border-secondary-container bg-secondary-container/20 text-secondary"
+              : "border-outline-variant text-on-surface-variant"
+          )}
+        >
+          {category.isCustom ? "Personalizada" : (TYPE_LABELS[category.type] ?? category.type)}
         </span>
       </div>
     </button>

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { DashboardTopBar } from "@/components/layouts/DashboardTopBar";
 import { BottomNavBar } from "@/components/layouts/BottomNavBar";
 import { WizardShell } from "@/components/features/wizard/WizardShell";
+import { prisma } from "@/lib/prisma";
 import type { WizardStep } from "@/types/wizard";
 
 export default async function NewPoolPage({
@@ -11,16 +12,26 @@ export default async function NewPoolPage({
 }) {
   const { step } = await searchParams;
   const stepNumber = Number(step) || 1;
-  const validStep = ([1, 2, 3, 4].includes(stepNumber)
+  const validStep = ([1, 2, 3].includes(stepNumber)
     ? stepNumber
     : 1) as WizardStep;
+
+  // Fetch all products — active ones are selectable, inactive show as "Em breve"
+  const allProducts = await prisma.product.findMany({
+    include: {
+      categories: {
+        orderBy: { sortOrder: "asc" },
+      },
+    },
+    orderBy: [{ isActive: "desc" }, { createdAt: "asc" }],
+  });
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <DashboardTopBar />
       <main className="mt-16 flex flex-1 flex-col">
         <Suspense>
-          <WizardShell initialStep={validStep} />
+          <WizardShell initialStep={validStep} products={allProducts} />
         </Suspense>
       </main>
       <BottomNavBar />

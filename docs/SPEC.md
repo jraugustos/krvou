@@ -1,7 +1,7 @@
 # Spec — KRVOU
 
-> Data: 2026-04-04
-> Status: Em revisao
+> Data: 2026-04-12
+> Status: Em revisao (wizard redesenhado — v2)
 > Baseado em: docs/brief/BRIEF.md + Google Stitch (Landing Page v5)
 
 ---
@@ -9,11 +9,11 @@
 ## Overview
 
 **Nome:** KRVOU
-**Descricao:** Webapp mobile-first para criar e participar de boloes esportivos (e eventos personalizados), com wizard de criacao guiado por IA.
+**Descricao:** Webapp mobile-first para criar e participar de boloes esportivos a partir de produtos pre-definidos (Copa do Mundo, Brasileirao, etc.), com wizard de criacao guiado e ranking em tempo real.
 **Problema:** Boloes hoje vivem em grupos de WhatsApp e planilhas — regras confusas, ninguem sabe quem ta ganhando, organizador perde tempo fazendo tudo na mao.
-**Solucao:** Uma plataforma onde a IA monta o bolao pra voce (categorias, regras, pontuacao), e os participantes so palpitam e acompanham o ranking.
-**Publico:** Pessoas que organizam boloes entre amigos ou colegas de trabalho — de Copa do Mundo a "quem vai ganhar o BBB".
-**Stack:** Next.js 14+ (App Router), TypeScript, Tailwind CSS, Prisma, PostgreSQL, NextAuth.js (Google + Credentials), Claude API (Anthropic SDK), Vercel.
+**Solucao:** Uma plataforma com produtos pre-configurados (categorias e pontuacao definidas pela plataforma), onde o criador monta o bolao em 3 steps e os participantes so palpitam e acompanham o ranking.
+**Publico:** Pessoas que organizam boloes entre amigos ou colegas de trabalho — foco em Copa do Mundo 2026 no MVP.
+**Stack:** Next.js 14+ (App Router), TypeScript, Tailwind CSS, Prisma, PostgreSQL, NextAuth.js (Google + Credentials), Vercel.
 **Design:** Estetica arcade hard-edge (Stitch Landing Page v5) — neon green #39ff14, deep purple #120224, border-radius 0, pixel font, CRT overlay.
 
 ---
@@ -124,37 +124,36 @@ Dashboard principal do usuario logado. Lista todos os boloes que ele participa o
 - **Bottom nav:** Home (ativo) | Criar | Meus Palpites | Ranking
 - **Rota:** `/home`
 
-### P04 — Wizard de Criacao (4 steps)
-Fluxo guiado por IA para criar um bolao. Cada step e uma tela com progress bar no topo.
+### P04 — Wizard de Criacao (3 steps)
+Fluxo guiado para criar um bolao a partir de um produto pre-definido. Cada step e uma tela com progress bar no topo. Sem IA — pontuacao definida pela plataforma.
 
-#### P04a — Step 1: Evento
-- **Objetivo:** Entender qual evento o usuario quer acompanhar.
-- **IA bubble:** Mensagem inicial pedindo para descrever o evento.
-- **Input:** Campo de texto livre para o usuario descrever (ex: "Copa do Mundo 2026, quero palpites em todos os jogos e no campeao").
-- **Templates:** Chips de atalho (Copa do Mundo, Champions, Brasileirao, Personalizado) que pre-preenchem o input.
-- **Processamento:** IA extrai tipo de evento, nome, escopo e avanca automaticamente.
+#### P04a — Step 1: Selecionar Produto
+- **Objetivo:** Escolher o produto (evento esportivo) que o bolao vai acompanhar.
+- **Grid de produtos:** Cards com nome do produto, descricao curta e imagem/icone. Estado selecionado: borda primary + overlay check.
+- **MVP:** Apenas "Copa do Mundo 2026" disponivel. Outros produtos bloqueados com badge "Em breve".
+- **Validacao:** Produto deve estar selecionado para avancar.
 - **Rota:** `/pool/new?step=1`
 
-#### P04b — Step 2: Categorias de Palpite
-- **Objetivo:** Definir em quais categorias os participantes vao palpitar.
-- **IA bubble:** Apresenta categorias sugeridas baseadas no evento.
-- **Lista de categorias:** Cards com checkbox (selecionado/nao selecionado), nome, descricao e tipo (Escolha unica, Placar exato, Texto livre).
-- **Acoes:** Toggle on/off por categoria. Botao "+ Adicionar" para pedir mais sugestoes a IA via input de texto.
+#### P04b — Step 2: Configurar Bolao
+- **Objetivo:** Nomear o bolao e escolher as categorias de palpite.
+- **Nome:** Input de texto livre para o nome do bolao. Obrigatorio, max 60 chars.
+- **Categorias do produto:** Lista de CategoryCheckCards com as categorias pre-definidas do produto. Toggle on/off por categoria. Minimo 1 selecionada para avancar.
+- **Categorias da Copa do Mundo 2026:**
+  - Resultados dos jogos (placar exato de cada partida)
+  - Vencedor da copa (selecao campeã)
+  - Artilheiro (jogador com mais gols)
+  - Primeiro, segundo e terceiro lugar (pódio de selecoes)
+  - Jogador revelacao (nome do jogador)
+- **Categoria personalizada:** Botao "+ Adicionar categoria" abre input de texto para o usuario nomear uma categoria livre. Ao confirmar, aparece na lista com badge "Personalizada". Pode adicionar varias.
+- **Categorias personalizadas:** Sem tipo fixo — validadas pelo criador do bolao via texto livre ao final da competicao (no painel admin).
 - **Rota:** `/pool/new?step=2`
 
-#### P04c — Step 3: Regras de Pontuacao
-- **Objetivo:** Definir quanto vale cada tipo de acerto.
-- **IA bubble:** Apresenta regras sugeridas e equilibradas.
-- **Regras por grupo:** Cards agrupados (ex: "Resultados dos Jogos" e "Categorias Especiais"), cada regra com nome e valor em pontos.
-- **Edicao:** Tap no valor de pontos abre editor inline para ajustar.
-- **IA assist:** Input para pedir rebalanceamento ("aumenta o peso do placar exato").
-- **Rota:** `/pool/new?step=3`
-
-#### P04d — Step 4: Revisao e Criacao
+#### P04c — Step 3: Revisao e Criacao
 - **Objetivo:** Revisar tudo antes de criar.
-- **Resumo:** Cards com nome do bolao, evento, categorias ativas (com contador), regras (com range de pontos). Cada card tem link "Editar" que volta ao step correspondente.
+- **Resumo:** ReviewCards com produto selecionado, nome do bolao, categorias ativas (pre-definidas + personalizadas com contador). Cada card tem link "Editar" que volta ao step correspondente.
+- **Pontuacao:** Nao exibida no wizard — definida pela plataforma por produto.
 - **CTA:** Botao "CRIAR BOLAO" que salva tudo no banco e redireciona para P05.
-- **Rota:** `/pool/new?step=4`
+- **Rota:** `/pool/new?step=3`
 
 ### P05 — Bolao Criado (Tela de Sucesso + Convite)
 Confirmacao apos criar o bolao com destaque no link de convite.
@@ -287,22 +286,22 @@ Exibido quando o usuario nao tem boloes. Mensagem convidando a criar ou entrar c
 ### P04 — Wizard de Criacao
 
 #### C10 — WizardProgressBar
-Barra de progresso no topo. 4 steps. Preenchimento com gradient primary→cyan. Mostra step atual (ex: "STEP 2/4" em pixel font).
+Barra de progresso no topo. 3 steps. Preenchimento com gradient primary→cyan. Mostra step atual (ex: "STEP 2/3" em pixel font).
 
 #### C11 — WizardHeader
 Card com step number em pixel font verde e titulo do step em texto body bold.
 
-#### C12 — AIBubble
-Balao de mensagem da IA. Background gradient translucido (roxo→cyan). Borda roxa sutil. Tag "IA" em pixel font com background roxo. Texto body.
+#### C12 — ProductCard
+Card de produto selecionavel. Imagem/icone do produto no topo, nome em font-heading bold, descricao curta em body muted. Estado selecionado: borda primary 2px + overlay com icone check (cor primary). Estado nao selecionado: borda outline. Badge "Em breve" para produtos indisponiveis (opacity reduzida, nao clicavel).
 
-#### C13 — TemplateChips
-Grupo de chips clicaveis para templates de evento. Background elevated, borda outline. Texto muted. Ao clicar, pre-preenche o input do step 1.
+#### C13 — PoolNameInput
+Input de texto para o nome do bolao. Label "Nome do bolao" em pixel font pequeno. Placeholder "ex: Bolao do Trampo 2026". Contador de chars (X/60) alinhado a direita. Estilo arcade (borda outline, focus glow neon green).
 
 #### C14 — CategoryCheckCard
-Card de categoria de palpite com checkbox. Estado selecionado: checkbox preenchido em primary com check, borda accent, background sutil. Estado nao selecionado: checkbox vazio com borda, opacity reduzida. Conteudo: nome da categoria, descricao, badge de tipo (Escolha unica / Placar exato / Texto livre).
+Card de categoria de palpite com checkbox. Estado selecionado: checkbox preenchido em primary com check, borda accent, background sutil. Estado nao selecionado: checkbox vazio com borda, opacity reduzida. Conteudo: nome da categoria, descricao, badge de tipo (Placar exato / Escolha unica / Texto livre). Badge adicional "Personalizada" em secondary para categorias criadas pelo usuario.
 
-#### C15 — ScoringRuleGroup
-Card agrupando regras de pontuacao por tipo. Titulo em uppercase (cor cyan para jogos, gold para especiais). Lista de score rows: nome da regra + valor em pixel font com background translucido verde. Valor clicavel para edicao inline.
+#### C15 — CustomCategoryInput
+Botao "+ Adicionar categoria" que expande para um input inline de texto. Campo para digitar o nome da categoria personalizada. Botao "Adicionar" confirma e fecha o input — categoria aparece na lista C14 com badge "Personalizada". Botao "Cancelar" descarta. Pode adicionar multiplas.
 
 #### C16 — ReviewCard
 Card de resumo com label (small muted), titulo (bold), subtitle opcional, e link "Editar" alinhado a direita (cor cyan).
@@ -452,47 +451,40 @@ Tela de erro generico. Icone de erro, mensagem, botao "Tentar novamente".
 
 ### P04 — Wizard de Criacao
 
-#### B11 — Descrever evento no Step 1 (C12 input)
-- **Acao:** Envia texto para Claude API via Server Action
-- **Processamento:** IA extrai nome do evento, tipo (futebol, generico, etc.), escopo (numero de jogos, categorias possiveis)
-- **Sucesso:** Avanca para Step 2 com categorias pre-sugeridas
-- **Erro IA:** Toast "Nao consegui entender o evento. Tente descrever com mais detalhes." + permite re-tentar
-- **Edge case texto vazio:** Botao desabilitado
+#### B11 — Selecionar produto no Step 1 (C12)
+- **Acao:** Clica no ProductCard do produto desejado
+- **Estado:** Card fica marcado com borda primary + check
+- **Validacao:** Produto deve estar selecionado para habilitar botao "Proximo"
+- **Edge case produto indisponivel:** Badge "Em breve", clique nao seleciona
 
-#### B12 — Selecionar template (C13)
-- **Acao:** Pre-preenche o input com descricao padrao do template
-- **Processamento:** Envia para IA como se o usuario tivesse digitado
-- **Templates:** "Copa do Mundo" → categorias e regras pre-definidas comuns; "Brasileirao" → foco em serie A; "Champions" → mata-mata europeu; "Personalizado" → IA pergunta mais detalhes
+#### B12 — Preencher nome do bolao no Step 2 (C13)
+- **Acao:** Digita nome no input
+- **Validacao:** Nao vazio, max 60 chars. Contador atualiza em tempo real
+- **Edge case nome vazio:** Botao "Proximo" desabilitado
 
 #### B13 — Toggle categoria on/off no Step 2 (C14)
-- **Acao:** Marca/desmarca categoria como ativa
-- **Validacao:** Minimo 1 categoria ativa para avancar
+- **Acao:** Marca/desmarca categoria do produto como ativa
+- **Validacao:** Minimo 1 categoria ativa (pre-definida ou personalizada) para avancar
 - **Edge case 0 categorias:** Botao "Proximo" desabilitado
 
-#### B14 — Adicionar categoria no Step 2 (C14)
-- **Acao:** Abre input de texto para descrever nova categoria
-- **Processamento:** Envia para IA, que cria a categoria com nome, descricao e tipo
-- **Sucesso:** Nova categoria aparece na lista como selecionada
+#### B14 — Adicionar categoria personalizada no Step 2 (C15)
+- **Acao:** Clica "+ Adicionar categoria" → input expande inline
+- **Preenche nome:** Texto livre, nao vazio, max 80 chars
+- **Confirma:** Categoria aparece na lista (C14) com badge "Personalizada" e ja selecionada
+- **Tipo de resultado:** Definido como "texto livre" — sem resultado de API, validado pelo criador ao final da competicao
+- **Cancela:** Input fecha sem adicionar
+- **Multiplas:** Pode adicionar quantas quiser
 
-#### B15 — Editar pontuacao no Step 3 (C15)
-- **Acao:** Tap no valor abre input numerico inline
-- **Validacao:** Valor minimo 1, maximo 999, apenas inteiros
-- **Sucesso:** Valor atualizado em tempo real
-
-#### B16 — Pedir rebalanceamento a IA no Step 3 (C12 input)
-- **Acao:** Envia pedido textual para Claude API
-- **Processamento:** IA recalcula pontuacoes mantendo proporcionalidade
-- **Sucesso:** Valores atualizados na tela
-- **Erro IA:** Toast de erro + mantem valores anteriores
-
-#### B17 — Confirmar criacao no Step 4 (C16)
-- **Acao:** Salva bolao, categorias e regras no banco via Server Action
-- **Dados criados:** Pool (status: open), BetCategories, ScoringRules, PoolMember (role: admin)
-- **Sucesso:** Gera inviteCode unico, redireciona para P05
+#### B15 — Confirmar criacao no Step 3 (C16)
+- **Acao:** Clica "CRIAR BOLAO" → Server Action
+- **Dados criados:** Pool (status: open, productId, name), PoolCategory para cada categoria ativa (pre-definidas e personalizadas), PoolMember (role: admin)
+- **Pontuacao:** Nao configurada pelo usuario — ScoringRules herdadas do produto via productCategoryId
+- **Sucesso:** Gera inviteCode unico (8 chars), redireciona para P05
 - **Erro:** Toast "Erro ao criar bolao" + nao redireciona
 - **Edge case nome duplicado:** Permitido (boloes podem ter nomes iguais, ID diferencia)
+- **Sessao expirada:** Redirect para /auth
 
-#### B18 — Navegar entre steps (C10)
+#### B16 — Navegar entre steps (C10)
 - **Acao:** Botoes "Voltar" e "Proximo" navegam entre steps
 - **Estado:** Dados de cada step sao mantidos em state client-side ate confirmacao final
 - **Voltar no step 1:** Volta para Home
@@ -634,8 +626,8 @@ Tela de erro generico. Icone de erro, mensagem, botao "Tentar novamente".
 **Justificativa:** Separar responsabilidades, evitar UI condicional complexa. Middleware checa role.
 
 ### D03 — Wizard state em client-side ate confirmacao
-**Contexto:** O wizard tem 4 steps e o usuario pode voltar e editar.
-**Decisao:** Manter estado dos steps em React state (client). So salva no banco no step 4 (confirmacao).
+**Contexto:** O wizard tem 3 steps e o usuario pode voltar e editar.
+**Decisao:** Manter estado dos steps em React state (client). So salva no banco no step 3 (confirmacao).
 **Justificativa:** Evita criar boloes incompletos no banco. Simplicidade. Se o usuario abandona, nada e criado.
 
 ### D04 — Calculo de pontuacao no momento da insercao do resultado
@@ -667,3 +659,23 @@ Tela de erro generico. Icone de erro, mensagem, botao "Tentar novamente".
 **Contexto:** Poderia haver roles intermediarios.
 **Decisao:** Apenas admin (criador) e participant. Admin pode inserir resultados e gerenciar.
 **Justificativa:** Simplicidade para MVP. Multi-admin pode ser v2.
+
+### D10 — Pontuacao definida pela plataforma, nao pelo usuario
+**Contexto:** No modelo anterior, o usuario podia editar e rebalancear as regras de pontuacao via IA.
+**Decisao:** Cada ProductCategory tem ScoringRules pre-definidas pela plataforma. O usuario nao configura pontuacao no wizard — ela e herdada automaticamente do produto ao criar o bolao.
+**Justificativa:** Consistencia entre boloes do mesmo produto. Elimina complexidade de configuracao. Garante fairness (ninguem pode inflar pontos de uma categoria que conhece melhor).
+
+### D11 — Produtos gerenciados por admins da plataforma (hardcoded no MVP)
+**Contexto:** Os produtos (Copa do Mundo 2026, Brasileirao, etc.) precisam ser cadastrados de alguma forma.
+**Decisao:** No MVP, produtos e suas categorias sao inseridos via seed do Prisma (hardcoded). Nao ha painel admin de produtos. Adicionar novo produto = novo arquivo de seed + deploy.
+**Justificativa:** Simplicidade para MVP. Painel de gestao de produtos e escopo pos-MVP.
+
+### D12 — Categorias personalizadas validadas pelo criador via texto livre
+**Contexto:** O criador do bolao pode adicionar categorias livres que nao existem no produto (ex: "Tecnico destaque", "Jogador mais feio"). Essas nao tem resultado de API.
+**Decisao:** Categoria personalizada tem type "custom". Ao final da competicao, o criador do bolao insere o resultado via campo de texto no painel admin (P09). Nao ha validacao automatica de formato — o resultado e um texto livre que o admin digita.
+**Justificativa:** Flexibilidade maxima para categorias criativas. Responsabilidade do criador garantir o resultado.
+
+### D13 — Resultados das categorias pre-definidas virao de API externa
+**Contexto:** Categorias como "Resultados dos jogos", "Vencedor da copa", etc. precisam de resultados reais.
+**Decisao:** Cada ProductCategory tem um campo resultSource ("api" | "manual"). Categorias da Copa do Mundo 2026 tem resultSource "api". A integracao com a API de resultados e escopo pos-MVP — no MVP o admin insere manualmente (mesmo fluxo que categorias personalizadas).
+**Justificativa:** Desacopla o lançamento do MVP da integracao com API externa. A arquitetura ja suporta o campo resultSource para implementacao futura.

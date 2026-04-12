@@ -40,48 +40,65 @@ model Account {
   @@index([userId])
 }
 
+model Product {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  description String?
+  isActive    Boolean           @default(true)
+  categories  ProductCategory[]
+  pools       Pool[]
+  createdAt   DateTime          @default(now())
+}
+
+model ProductCategory {
+  id             String         @id @default(cuid())
+  productId      String
+  product        Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name           String
+  description    String?
+  type           String
+  resultSource   String         @default("manual")
+  sortOrder      Int            @default(0)
+  poolCategories PoolCategory[]
+  createdAt      DateTime       @default(now())
+
+  @@index([productId])
+}
+
 model Pool {
-  id          String        @id @default(cuid())
+  id          String         @id @default(cuid())
   name        String
   description String?
-  eventType   String?
-  status      String        @default("open")
-  inviteCode  String        @unique
+  productId   String
+  product     Product        @relation(fields: [productId], references: [id])
+  status      String         @default("open")
+  inviteCode  String         @unique
   creatorId   String
-  creator     User          @relation("PoolCreator", fields: [creatorId], references: [id])
+  creator     User           @relation("PoolCreator", fields: [creatorId], references: [id])
   members     PoolMember[]
-  categories  BetCategory[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  categories  PoolCategory[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 
   @@index([creatorId])
+  @@index([productId])
 }
 
-model BetCategory {
-  id           String        @id @default(cuid())
-  name         String
-  description  String?
-  type         String
-  isLocked     Boolean       @default(false)
-  deadline     DateTime?
-  poolId       String
-  pool         Pool          @relation(fields: [poolId], references: [id], onDelete: Cascade)
-  scoringRules ScoringRule[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+model PoolCategory {
+  id                String           @id @default(cuid())
+  poolId            String
+  pool              Pool             @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  productCategoryId String?
+  productCategory   ProductCategory? @relation(fields: [productCategoryId], references: [id])
+  isCustom          Boolean          @default(false)
+  customName        String?
+  customResultText  String?
+  isActive          Boolean          @default(true)
+  createdAt         DateTime         @default(now())
 
   @@index([poolId])
-}
-
-model ScoringRule {
-  id         String      @id @default(cuid())
-  name       String
-  points     Int
-  categoryId String
-  category   BetCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  createdAt  DateTime    @default(now())
-
-  @@index([categoryId])
+  @@index([productCategoryId])
 }
 
 model PoolMember {
