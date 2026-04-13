@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 import { DashboardTopBar } from "@/components/layouts/DashboardTopBar";
 import { BottomNavBar } from "@/components/layouts/BottomNavBar";
 import { WizardShell } from "@/components/features/wizard/WizardShell";
@@ -10,6 +12,11 @@ export default async function NewPoolPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/auth");
+  }
+
   const { step } = await searchParams;
   const stepNumber = Number(step) || 1;
   const validStep = ([1, 2, 3].includes(stepNumber)
