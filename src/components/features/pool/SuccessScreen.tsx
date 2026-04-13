@@ -19,10 +19,11 @@ export function SuccessScreen({ poolName, inviteUrl, poolId }: SuccessScreenProp
   async function handleCopy() {
     if (navigator.clipboard) {
       await navigator.clipboard.writeText(inviteUrl);
+      toast.success("Link copiado!");
     } else {
       inputRef.current?.select();
+      toast.info("Selecione e copie o link manualmente");
     }
-    toast.success("Link copiado!");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -49,6 +50,7 @@ export function SuccessScreen({ poolName, inviteUrl, poolId }: SuccessScreenProp
           type="text"
           readOnly
           value={inviteUrl}
+          aria-label="Link de convite"
           className="w-full bg-surface-lowest border-2 border-outline-variant font-mono text-xs text-on-surface px-3 py-2 select-all focus:outline-none"
         />
         <Button
