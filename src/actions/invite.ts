@@ -1,15 +1,23 @@
 "use server";
 
+import { z } from "zod";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+
+const PoolIdSchema = z.string().min(1);
 
 export type JoinResult =
   | { success: true; poolId: string; alreadyMember?: true }
   | { success: false; error: string };
 
 export async function joinPoolAction(poolId: string): Promise<JoinResult> {
+  const parsed = PoolIdSchema.safeParse(poolId);
+  if (!parsed.success) {
+    return { success: false, error: "Dados invalidos." };
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/auth");

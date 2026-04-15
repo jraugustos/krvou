@@ -39,6 +39,14 @@ export async function loginAction(
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
+        if (pendingInvite) {
+          cookieStore.set("pendingInvite", pendingInvite, {
+            maxAge: 60 * 30,
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax",
+          });
+        }
         return { message: "Email ou senha incorretos" };
       }
     }
