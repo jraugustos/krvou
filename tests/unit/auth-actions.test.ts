@@ -40,6 +40,22 @@ vi.mock("bcryptjs", () => ({
   },
 }));
 
+// Mock next/headers (cookies — added in issue-07 for pendingInvite)
+vi.mock("next/headers", () => ({
+  cookies: vi.fn(),
+}));
+
+import { cookies } from "next/headers";
+
+function makeCookieStore(values: Record<string, string> = {}) {
+  return {
+    get: (key: string) =>
+      values[key] ? { name: key, value: values[key] } : undefined,
+    set: vi.fn(),
+    delete: vi.fn(),
+  } as unknown as Awaited<ReturnType<typeof cookies>>;
+}
+
 import { loginAction, signupAction } from "@/actions/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -51,9 +67,12 @@ function makeFormData(data: Record<string, string>): FormData {
   return fd;
 }
 
+const mockCookies = vi.mocked(cookies);
+
 describe("loginAction", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockCookies.mockResolvedValue(makeCookieStore() as never);
   });
 
   it("returns validation errors for invalid email", async () => {
@@ -100,6 +119,7 @@ describe("loginAction", () => {
 describe("signupAction", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockCookies.mockResolvedValue(makeCookieStore() as never);
   });
 
   it("returns validation errors for short name", async () => {
