@@ -14,3 +14,12 @@ export interface PoolCardData {
   contextInfo: string;
   href: string;
 }
+
+export interface InvitePageData {
+  poolId: string;
+  poolName: string;
+  creatorName: string;
+  participantCount: number;
+  categories: string[];
+  status: PoolStatus;
+}

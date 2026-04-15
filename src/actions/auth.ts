@@ -2,6 +2,7 @@
 
 import bcryptjs from "bcryptjs";
 import { AuthError } from "next-auth";
+import { cookies } from "next/headers";
 import { signIn } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import {
@@ -23,11 +24,16 @@ export async function loginAction(
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
+  const cookieStore = await cookies();
+  const pendingInvite = cookieStore.get("pendingInvite")?.value;
+  const redirectTo = pendingInvite ? `/join/${pendingInvite}?autoJoin=1` : "/home";
+  cookieStore.delete("pendingInvite");
+
   try {
     await signIn("credentials", {
       email: parsed.data.email,
       password: parsed.data.password,
-      redirectTo: "/home",
+      redirectTo,
     });
     return null;
   } catch (error) {
@@ -80,11 +86,16 @@ export async function signupAction(
     return { message: "Erro ao criar conta" };
   }
 
+  const cookieStore = await cookies();
+  const pendingInvite = cookieStore.get("pendingInvite")?.value;
+  const redirectTo = pendingInvite ? `/join/${pendingInvite}?autoJoin=1` : "/home";
+  cookieStore.delete("pendingInvite");
+
   try {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/home",
+      redirectTo,
     });
     return null;
   } catch (error) {
