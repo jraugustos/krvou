@@ -24,7 +24,7 @@ export function ErrorState({
         className
       )}
     >
-      <div className="flex size-16 items-center justify-center bg-error-container">
+      <div className="flex size-16 items-center justify-center rounded-card bg-error-container shadow-drop-soft">
         <OctagonXIcon className="size-8 text-destructive" />
       </div>
 

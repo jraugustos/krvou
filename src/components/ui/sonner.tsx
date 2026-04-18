@@ -26,7 +26,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-bg": "var(--surface-container)",
           "--normal-text": "var(--on-surface)",
           "--normal-border": "var(--outline-variant)",
-          "--border-radius": "0px",
+          "--border-radius": "var(--radius-card)",
           "--success-bg": "var(--surface-container)",
           "--success-text": "var(--on-surface)",
           "--success-border": "var(--primary)",
@@ -41,7 +41,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "!border-l-4 !bg-surface-container !text-on-surface !rounded-none !shadow-arcade-toast",
+            "!border-l-4 !bg-surface-container !text-on-surface !rounded-card !shadow-drop-soft-md",
           success: "!border-l-primary",
           error: "!border-l-destructive",
           info: "!border-l-tertiary",

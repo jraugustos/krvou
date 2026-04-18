@@ -21,6 +21,10 @@ export const buttonVariants = cva(
           "border-2 border-outline-variant bg-transparent text-foreground hover:bg-surface-high active:bg-surface-highest",
         ghost:
           "bg-transparent text-foreground hover:bg-surface-high active:bg-surface-highest",
+        pill:
+          "rounded-pill bg-primary text-primary-foreground shadow-neon-glow hover:shadow-neon-glow-strong hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200",
+        "pill-outline":
+          "rounded-pill border-2 border-outline-variant-light bg-transparent text-foreground hover:bg-white/5 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200",
       },
       size: {
         default: "h-10 gap-2 px-5 py-2",
@@ -29,6 +33,7 @@ export const buttonVariants = cva(
         xl: "h-14 gap-3 px-8 py-4 text-lg",
         icon: "size-10",
         "icon-sm": "size-8",
+        "pill-lg": "h-14 gap-2.5 px-8 py-4 text-base",
       },
     },
     defaultVariants: {

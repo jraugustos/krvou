@@ -15,6 +15,16 @@ import {
 } from "@/components/ui/alert-dialog";
 import { LoadingState } from "@/components/ui/loading-state";
 import { ErrorState } from "@/components/ui/error-state";
+import {
+  Card,
+  CardAura,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { SendIcon } from "lucide-react";
 import { toast } from "sonner";
 
 const colors = [
@@ -53,6 +63,183 @@ export default function DevPage() {
             Todos os componentes e tokens do design system.
           </p>
         </header>
+
+        {/* ================================================
+            Digital Arena — Fundação nova (issue/design-refresh)
+            ================================================ */}
+        <section className="space-y-6 rounded-card-lg bg-background-light p-6 md:p-10">
+          <div>
+            <span className="font-heading text-xs font-bold uppercase tracking-widest text-on-surface-variant-light">
+              Novo · Fundação
+            </span>
+            <h2 className="mt-1 font-heading text-2xl font-bold text-on-surface-light md:text-3xl">
+              Digital Arena
+            </h2>
+            <p className="mt-2 text-sm text-on-surface-variant-light">
+              Editorial-gaming híbrido: dark hero sobre light canvas, cantos
+              suaves, glow neon e sombras editoriais.
+            </p>
+          </div>
+
+          {/* Card default (branco) */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              Card · default (branco)
+            </h3>
+            <Card>
+              <CardHeader>
+                <CardTitle>Bolão da Copa 2026</CardTitle>
+                <CardDescription>
+                  32 participantes · encerra em 3 dias
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-on-surface-light">
+                  Cards brancos com sombra drop-soft para conteúdo editorial em
+                  canvas claro. Raio 1rem (rounded-card).
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button variant="pill" size="pill-lg">
+                  Entrar
+                </Button>
+                <Button variant="pill-outline" size="pill-lg">
+                  Compartilhar
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          {/* Card hero (dark com aura) */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              Card · hero (dark + aura neon)
+            </h3>
+            <Card variant="hero" padding="lg">
+              <CardAura />
+              <div className="relative space-y-4">
+                <span className="font-heading text-[10px] uppercase tracking-widest text-primary">
+                  Meus Palpites
+                </span>
+                <h3 className="font-pixel text-xl text-secondary">
+                  3 jogos hoje
+                </h3>
+                <p className="text-sm text-on-surface-variant">
+                  Hero cards em roxo profundo com aura neon difusa. Ideal para
+                  seções destacadas com personalidade editorial.
+                </p>
+                <Button variant="pill" size="pill-lg" className="w-full">
+                  Ver palpites
+                </Button>
+              </div>
+            </Card>
+          </div>
+
+          {/* Card stat (glassmorphism grid) */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              Card · stat (gamification block)
+            </h3>
+            <Card variant="stat" padding="lg">
+              <CardAura className="-left-10 -top-10" />
+              <div className="relative space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-xs uppercase tracking-widest text-on-surface-variant">
+                    Nível 12
+                  </span>
+                  <span className="font-heading text-[10px] uppercase tracking-widest text-primary">
+                    8,450 XP
+                  </span>
+                </div>
+                <div className="h-4 w-full overflow-hidden rounded-pill border border-white/5 bg-white/10 backdrop-blur-sm">
+                  <div
+                    className="h-full w-3/4 rounded-pill bg-primary shadow-neon-glow"
+                    aria-label="75% para próximo nível"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-card border border-white/5 bg-white/5 p-4 backdrop-blur-md">
+                    <p className="font-heading text-[10px] uppercase tracking-widest text-on-surface-variant">
+                      Acertos
+                    </p>
+                    <p className="mt-1 font-pixel text-lg text-primary">128</p>
+                  </div>
+                  <div className="rounded-card border border-white/5 bg-white/5 p-4 backdrop-blur-md">
+                    <p className="font-heading text-[10px] uppercase tracking-widest text-on-surface-variant">
+                      Ranking
+                    </p>
+                    <p className="mt-1 font-pixel text-lg text-primary">#3</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Buttons pill */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              Button · pill
+            </h3>
+            <div className="flex flex-wrap items-center gap-4 rounded-card bg-surface-lowest-light p-6 shadow-drop-soft">
+              <Button variant="pill">Pill default</Button>
+              <Button variant="pill" size="pill-lg">
+                Pill large
+              </Button>
+              <Button variant="pill-outline">Pill outline</Button>
+              <Button variant="pill-outline" size="pill-lg">
+                Pill outline large
+              </Button>
+              <Button variant="pill" disabled>
+                Disabled
+              </Button>
+            </div>
+          </div>
+
+          {/* Input pill (chat) */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              Input · pill (chat messenger)
+            </h3>
+            <div className="rounded-card bg-surface-low-light p-6">
+              <div className="relative">
+                <Input
+                  variant="pill"
+                  placeholder="Digite uma mensagem para a IA..."
+                  type="text"
+                />
+                <button
+                  type="button"
+                  className="absolute right-2 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-pill bg-hero-surface text-primary transition-colors hover:bg-surface-container"
+                  aria-label="Enviar"
+                >
+                  <SendIcon className="size-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <p className="rounded-card border-2 border-dashed border-outline-variant-light bg-surface-lowest-light p-4 text-xs text-on-surface-variant-light">
+            ℹ️ <strong>Fundação opt-in:</strong> componentes de feature
+            (landing, home, wizard, etc.) continuam usando o sistema{' '}
+            <em>Neon Arcade Terminal</em> até cada issue de migração rodar.
+          </p>
+        </section>
+
+        {/* ================================================
+            Neon Arcade Terminal — Legado (preservado para migração gradual)
+            ================================================ */}
+        <div className="space-y-2 border-t-2 border-dashed border-outline-variant pt-8">
+          <span className="font-heading text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+            Legado · arcade terminal
+          </span>
+          <h2 className="font-pixel text-xl text-secondary">
+            Sistema atual (features)
+          </h2>
+          <p className="text-sm text-on-surface-variant">
+            Tokens e componentes do “Neon Arcade Terminal” ainda em uso pelas
+            features. Serão migrados em issues subsequentes.
+          </p>
+        </div>
 
         {/* Typography */}
         <section className="space-y-4">

@@ -5,8 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================
-   KRVOU Design Tokens — "KRVOU Arcade Grid"
-   Source: Stitch design system + SPEC + BRIEF
+   KRVOU Design Tokens — "Digital Arena"
+   Source: Stitch "Bolões Inteligentes com IA" (biblioteca + organismos)
+   North Star: editorial-gaming híbrido (dark hero sobre light canvas)
+   Legado preservado: "Neon Arcade Terminal" (tokens arcade intactos
+   para migração gradual das features — ver docs/issues/design-refresh/PLAN.md)
    ============================================ */
 
 :root {
@@ -78,8 +81,27 @@
   --accent: #371e50;
   --accent-foreground: #f0dbff;
 
-  /* Radius: 0px EVERYWHERE (hard-edge arcade) */
+  /* Radius: 0px EVERYWHERE (hard-edge arcade) — LEGACY tokens, preservados */
   --radius: 0rem;
+
+  /* Radius: "Digital Arena" — novos tokens, opt-in via classes dedicadas */
+  --radius-card: 1rem;       /* 16px — cards, inputs default */
+  --radius-card-lg: 2rem;    /* 32px — hero cards, seções */
+  --radius-card-xl: 3rem;    /* 48px — bottom nav pill flutuante */
+  --radius-pill: 9999px;     /* full — buttons pill, chips, chat inputs */
+
+  /* Superfícies claras — "Digital Arena" light canvas */
+  --background-light: #f9faf6;
+  --surface-lowest-light: #ffffff;
+  --surface-low-light: #f3f4f0;
+  --surface-high-light: #e8ebe3;
+  --on-surface-light: #1a1c1a;
+  --on-surface-variant-light: #3c4b35;
+  --outline-light: #6b7c63;
+  --outline-variant-light: #baccb0;
+
+  /* Hero dark (reutiliza surface-lowest = #190032, nomeado para clareza semântica) */
+  --hero-surface: #190032;
 
   /* Charts */
   --chart-1: #39ff14;
@@ -164,7 +186,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Radius — all 0 (hard-edge) */
+  /* Radius — all 0 (hard-edge arcade, LEGADO) */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -172,6 +194,23 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Radius — "Digital Arena" (Tailwind utility classes rounded-card/rounded-pill) */
+  --radius-card: var(--radius-card);
+  --radius-card-lg: var(--radius-card-lg);
+  --radius-card-xl: var(--radius-card-xl);
+  --radius-pill: var(--radius-pill);
+
+  /* Cores "Digital Arena" — surfaces claras + hero dark */
+  --color-background-light: var(--background-light);
+  --color-surface-lowest-light: var(--surface-lowest-light);
+  --color-surface-low-light: var(--surface-low-light);
+  --color-surface-high-light: var(--surface-high-light);
+  --color-on-surface-light: var(--on-surface-light);
+  --color-on-surface-variant-light: var(--on-surface-variant-light);
+  --color-outline-light: var(--outline-light);
+  --color-outline-variant-light: var(--outline-variant-light);
+  --color-hero-surface: var(--hero-surface);
 
   /* Fonts */
   --font-sans: var(--font-inter);
@@ -190,6 +229,16 @@
   /* Glow shadows (focus/validation states) */
   --shadow-glow-primary: 0 0 8px color-mix(in srgb, var(--primary) 40%, transparent);
   --shadow-glow-destructive: 0 0 8px color-mix(in srgb, var(--destructive) 40%, transparent);
+
+  /* "Digital Arena" — neon glow (pill buttons, CTAs, hero accents) */
+  --shadow-neon-glow: 0 0 15px rgba(57, 255, 20, 0.4);
+  --shadow-neon-glow-strong: 0 0 25px rgba(57, 255, 20, 0.6);
+  --shadow-neon-glow-sm: 0 0 10px rgba(57, 255, 20, 0.2);
+
+  /* "Digital Arena" — drop soft (cards brancos, elevações editoriais) */
+  --shadow-drop-soft: 0 8px 30px rgba(0, 0, 0, 0.04);
+  --shadow-drop-soft-md: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --shadow-drop-soft-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
 }
 
 /* ============================================
@@ -211,11 +260,14 @@
 }
 
 /* ============================================
-   Scanline Overlay — CRT Monitor Effect
-   Always active, covers entire viewport
+   Scanline Overlay — CRT Monitor Effect (opt-in)
+   Aplicar .arcade-scanline em qualquer elemento para
+   sobrepor scanline fixo no viewport. Útil em telas
+   com estética arcade intencional (ex.: GAME OVER).
+   Antes: sempre ativo via body::after.
    ============================================ */
 
-body::after {
+.arcade-scanline::after {
   content: "";
   position: fixed;
   inset: 0;
