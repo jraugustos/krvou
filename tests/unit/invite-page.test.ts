@@ -78,7 +78,7 @@ beforeEach(() => {
 
 describe("JoinPage", () => {
   it("calls notFound when pool does not exist", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockAuth.mockResolvedValue(null as never);
     mockFindUnique.mockResolvedValue(null);
 
     await expect(
@@ -90,7 +90,7 @@ describe("JoinPage", () => {
   });
 
   it("calls notFound when prisma throws", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockAuth.mockResolvedValue(null as never);
     mockFindUnique.mockRejectedValue(new Error("DB error"));
 
     await expect(
@@ -102,7 +102,7 @@ describe("JoinPage", () => {
   });
 
   it("renders InviteCard with isLoggedIn:false when no session", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockAuth.mockResolvedValue(null as never);
     mockFindUnique.mockResolvedValue(fakePool as never);
 
     const result = await JoinPage({
@@ -112,8 +112,9 @@ describe("JoinPage", () => {
 
     const card = findByType(result, InviteCard);
     expect(card).not.toBeNull();
-    expect(card!.props.isLoggedIn).toBe(false);
-    expect(card!.props.autoJoin).toBe(false);
+    const props = card!.props as Record<string, unknown>;
+    expect(props.isLoggedIn).toBe(false);
+    expect(props.autoJoin).toBe(false);
   });
 
   it("renders InviteCard with isLoggedIn:true when session exists", async () => {
@@ -126,8 +127,9 @@ describe("JoinPage", () => {
     });
 
     const card = findByType(result, InviteCard);
-    expect(card!.props.isLoggedIn).toBe(true);
-    expect(card!.props.autoJoin).toBe(false);
+    const props = card!.props as Record<string, unknown>;
+    expect(props.isLoggedIn).toBe(true);
+    expect(props.autoJoin).toBe(false);
   });
 
   it("passes autoJoin:true when autoJoin=1 and user is logged in", async () => {
@@ -140,11 +142,11 @@ describe("JoinPage", () => {
     });
 
     const card = findByType(result, InviteCard);
-    expect(card!.props.autoJoin).toBe(true);
+    expect((card!.props as Record<string, unknown>).autoJoin).toBe(true);
   });
 
   it("passes autoJoin:false when autoJoin=1 but user is not logged in", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockAuth.mockResolvedValue(null as never);
     mockFindUnique.mockResolvedValue(fakePool as never);
 
     const result = await JoinPage({
@@ -153,11 +155,11 @@ describe("JoinPage", () => {
     });
 
     const card = findByType(result, InviteCard);
-    expect(card!.props.autoJoin).toBe(false);
+    expect((card!.props as Record<string, unknown>).autoJoin).toBe(false);
   });
 
   it("passes correct poolData including mapped categories", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockAuth.mockResolvedValue(null as never);
     mockFindUnique.mockResolvedValue(fakePool as never);
 
     const result = await JoinPage({
@@ -166,8 +168,9 @@ describe("JoinPage", () => {
     });
 
     const card = findByType(result, InviteCard);
-    expect(card!.props.inviteCode).toBe("abc123");
-    expect(card!.props.poolData).toMatchObject({
+    const props = card!.props as Record<string, unknown>;
+    expect(props.inviteCode).toBe("abc123");
+    expect(props.poolData).toMatchObject({
       poolName: "Bolao do Oscar",
       creatorName: "Leo",
       participantCount: 5,

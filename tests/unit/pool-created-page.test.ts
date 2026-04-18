@@ -77,7 +77,7 @@ beforeEach(() => {
 
 describe("PoolCreatedPage", () => {
   it("redirects to /auth when session is missing", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockAuth.mockResolvedValue(null as never);
 
     await expect(
       PoolCreatedPage({ params: Promise.resolve({ poolId: "pool-abc" }) })

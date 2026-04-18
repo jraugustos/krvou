@@ -57,7 +57,7 @@ beforeEach(() => {
 
 describe("joinPoolAction", () => {
   it("redirects to /auth when not authenticated", async () => {
-    mockAuth.mockResolvedValue(null);
+    mockAuth.mockResolvedValue(null as never);
 
     await expect(joinPoolAction("pool-1")).rejects.toThrow(
       "NEXT_REDIRECT:/auth"
