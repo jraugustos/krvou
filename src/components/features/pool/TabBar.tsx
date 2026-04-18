@@ -14,20 +14,30 @@ interface TabBarProps {
   onTabChange: (tab: PanelTab) => void;
 }
 
+/**
+ * TabBar — Pill flutuante editorial com 3 tabs.
+ * Aba ativa: fundo escuro (hero-surface) com glow sutil.
+ */
 export function TabBar({ activeTab, onTabChange }: TabBarProps) {
   return (
-    <div className="flex border-2 border-outline-variant bg-surface-container">
+    <div
+      role="tablist"
+      className="inline-flex items-center gap-1 self-start overflow-x-auto rounded-pill bg-surface-low-light p-1 shadow-drop-soft"
+    >
       {TABS.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
           <button
             key={tab.id}
+            role="tab"
+            type="button"
+            aria-selected={isActive}
             onClick={() => onTabChange(tab.id)}
             className={cn(
-              "flex flex-1 items-center justify-center py-3 font-heading text-xs uppercase tracking-widest transition-colors",
+              "rounded-pill px-4 py-1.5 font-heading text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap",
               isActive
-                ? "bg-surface-high text-primary border-b-2 border-primary"
-                : "text-on-surface-variant hover:text-on-surface"
+                ? "bg-hero-surface text-on-surface shadow-drop-soft"
+                : "text-on-surface-variant-light hover:text-on-surface-light"
             )}
           >
             {tab.label}

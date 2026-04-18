@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { Card, CardAura } from "@/components/ui/card";
 
 interface UserPositionCardProps {
   rank: number;
@@ -10,49 +10,65 @@ function getOrdinal(n: number): string {
   return `${n}º`;
 }
 
-export function UserPositionCard({ rank, score, leaderScore }: UserPositionCardProps) {
+/**
+ * UserPositionCard — Bloco de gamification editorial.
+ * Card stat (dark) + aura neon + grid glassmorphism (4 células).
+ */
+export function UserPositionCard({
+  rank,
+  score,
+  leaderScore,
+}: UserPositionCardProps) {
   const diff = leaderScore - score;
-  const isLeader = diff === 0;
+  const isLeader = diff === 0 || rank === 1;
+  const nextTarget = Math.max(0, diff);
 
   return (
-    <div
-      className={cn(
-        "relative flex items-center gap-5 border-2 border-tertiary p-5 shadow-arcade-dark",
-        "bg-gradient-to-br from-surface-high to-surface-container overflow-hidden"
-      )}
-    >
-      {/* Decoração de fundo */}
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-1/3 bg-tertiary/10" />
-
-      {/* Posição */}
-      <div className="flex flex-col items-center gap-1 min-w-[56px]">
-        <span className="font-pixel text-2xl text-secondary leading-none">
-          {getOrdinal(rank)}
-        </span>
-        <span className="font-heading text-[9px] text-on-surface-variant uppercase tracking-widest">
-          Lugar
-        </span>
-      </div>
-
-      {/* Divisor */}
-      <div className="h-12 w-[2px] bg-outline-variant" />
-
-      {/* Pontuação e diff */}
-      <div className="flex flex-col gap-1">
-        <div className="flex items-baseline gap-2">
-          <span className="font-pixel text-xl text-primary leading-none">
-            {score}
+    <Card variant="stat" padding="lg">
+      <CardAura className="-left-10 -top-10" />
+      <div className="relative flex flex-col gap-5">
+        <div className="flex items-center justify-between">
+          <span className="font-heading text-[10px] text-primary uppercase tracking-widest">
+            Sua posição
           </span>
-          <span className="font-heading text-[9px] text-on-surface-variant uppercase tracking-widest">
-            pts
+          <span className="font-heading text-[10px] text-on-surface-variant uppercase tracking-widest">
+            {isLeader ? "Liderando" : `-${diff} pts do líder`}
           </span>
         </div>
-        <p className="font-sans text-[11px] text-on-surface-variant">
-          {isLeader
-            ? "Você está em primeiro 🏆"
-            : `−${diff} pts para o líder`}
-        </p>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-card border border-white/5 bg-white/5 p-4 backdrop-blur-md">
+            <p className="font-heading text-[10px] uppercase tracking-widest text-on-surface-variant">
+              Ranking
+            </p>
+            <p className="mt-1 font-pixel text-lg text-primary">
+              {getOrdinal(rank)}
+            </p>
+          </div>
+          <div className="rounded-card border border-white/5 bg-white/5 p-4 backdrop-blur-md">
+            <p className="font-heading text-[10px] uppercase tracking-widest text-on-surface-variant">
+              Pontuação
+            </p>
+            <p className="mt-1 font-pixel text-lg text-primary">{score}</p>
+          </div>
+          <div className="rounded-card border border-white/5 bg-white/5 p-4 backdrop-blur-md">
+            <p className="font-heading text-[10px] uppercase tracking-widest text-on-surface-variant">
+              Líder
+            </p>
+            <p className="mt-1 font-pixel text-lg text-secondary">
+              {leaderScore}
+            </p>
+          </div>
+          <div className="rounded-card border border-white/5 bg-white/5 p-4 backdrop-blur-md">
+            <p className="font-heading text-[10px] uppercase tracking-widest text-on-surface-variant">
+              Próximo alvo
+            </p>
+            <p className="mt-1 font-pixel text-lg text-primary">
+              {isLeader ? "—" : `+${nextTarget}`}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </Card>
   );
 }

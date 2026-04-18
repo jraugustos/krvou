@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Lock, ChevronRight } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { BetCategoryData } from "@/types/pool";
 
@@ -21,16 +22,16 @@ function ProgressBar({ done, total }: { done: number; total: number }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="font-heading text-[10px] text-on-surface-variant uppercase tracking-widest">
+        <span className="font-heading text-[10px] text-on-surface-variant-light uppercase tracking-widest">
           Progresso
         </span>
-        <span className="font-pixel text-[10px] text-primary">
+        <span className="font-pixel text-[10px] text-primary-dim">
           {done}/{total}
         </span>
       </div>
-      <div className="h-2 w-full bg-surface-highest border border-outline-variant overflow-hidden">
+      <div className="h-2 w-full overflow-hidden rounded-pill bg-primary/10">
         <div
-          className="h-full bg-primary transition-all duration-500"
+          className="h-full rounded-pill bg-primary shadow-neon-glow-sm transition-all duration-500"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -55,11 +56,11 @@ export function BetCategoryCards({ categories, poolId }: BetCategoryCardsProps) 
 
   if (categories.length === 0) {
     return (
-      <div className="border-2 border-outline-variant p-5 text-center">
-        <p className="font-sans text-sm text-on-surface-variant">
+      <Card padding="default">
+        <p className="text-center text-sm text-on-surface-variant-light">
           Nenhuma categoria disponível.
         </p>
-      </div>
+      </Card>
     );
   }
 
@@ -67,7 +68,7 @@ export function BetCategoryCards({ categories, poolId }: BetCategoryCardsProps) 
     <div className="flex flex-col gap-4">
       <ProgressBar done={done} total={total} />
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {categories.map((category) => {
           const locked = category.isLocked || isExpired(category.deadline);
           const isFeit = category.status === "feito";
@@ -75,47 +76,47 @@ export function BetCategoryCards({ categories, poolId }: BetCategoryCardsProps) 
           return (
             <button
               key={category.id}
+              type="button"
               onClick={() => handleCategoryClick(category)}
               className={cn(
-                "flex items-center gap-3 border-2 border-outline-variant p-4 text-left transition-colors",
-                "border-l-[3px]",
-                isFeit
-                  ? "border-l-primary bg-surface-container hover:bg-surface-high"
-                  : "border-l-destructive bg-surface-container hover:bg-surface-high",
-                locked && "opacity-60 cursor-not-allowed"
+                "group flex items-center gap-3 rounded-card border-l-4 bg-surface-lowest-light p-4 text-left shadow-drop-soft transition-all",
+                isFeit ? "border-l-primary" : "border-l-destructive",
+                !locked && "hover:-translate-y-0.5 hover:shadow-drop-soft-md",
+                locked && "cursor-not-allowed opacity-60"
               )}
+              aria-disabled={locked || undefined}
             >
-              {/* Info */}
-              <div className="flex flex-col gap-1 flex-1 min-w-0">
-                <span className="font-heading text-sm text-on-surface truncate">
+              <div className="flex flex-1 flex-col gap-1 min-w-0">
+                <span className="font-heading text-sm font-bold text-on-surface-light truncate">
                   {category.name}
                 </span>
                 <span
                   className={cn(
                     "font-sans text-xs truncate",
-                    isFeit ? "text-primary" : "text-on-surface-variant italic"
+                    isFeit
+                      ? "text-on-surface-variant-light"
+                      : "italic text-on-surface-variant-light"
                   )}
                 >
                   {category.betValue ?? "Nenhum palpite"}
                 </span>
               </div>
 
-              {/* Badge status + chevron */}
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex shrink-0 items-center gap-2">
                 <span
                   className={cn(
-                    "font-heading text-[9px] uppercase tracking-widest px-2 py-1 border",
+                    "rounded-pill px-3 py-1 font-heading text-[9px] uppercase tracking-widest",
                     isFeit
-                      ? "text-primary border-primary bg-primary/10"
-                      : "text-destructive border-destructive bg-destructive/10"
+                      ? "bg-primary/10 text-primary-dim"
+                      : "bg-destructive/10 text-destructive"
                   )}
                 >
                   {isFeit ? "Feito" : "Pendente"}
                 </span>
                 {locked ? (
-                  <Lock className="size-3.5 text-on-surface-variant" />
+                  <Lock className="size-4 text-on-surface-variant-light" />
                 ) : (
-                  <ChevronRight className="size-3.5 text-on-surface-variant" />
+                  <ChevronRight className="size-4 text-on-surface-variant-light transition-transform group-hover:translate-x-0.5" />
                 )}
               </div>
             </button>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,6 +25,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PoolHero } from "@/components/features/pool/PoolHero";
+import { UserPositionCard } from "@/components/features/pool/UserPositionCard";
+import { MatchCard } from "@/components/features/pool/bet/MatchCard";
+import { ScoreInput } from "@/components/features/pool/bet/ScoreInput";
+import { SubmitBetsBar } from "@/components/features/pool/bet/SubmitBetsBar";
 import { SendIcon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -47,7 +53,23 @@ const colors = [
   { name: "outline-variant", var: "#3c4b35" },
 ];
 
+const MOCK_MATCHES = [
+  {
+    id: "m1",
+    homeTeam: "Brasil",
+    awayTeam: "Argentina",
+    kickoff: "Sab 20h",
+  },
+  {
+    id: "m2",
+    homeTeam: "Uruguai",
+    awayTeam: "Colômbia",
+    kickoff: "Dom 17h",
+  },
+];
+
 export default function DevPage() {
+  const [demoScore, setDemoScore] = useState<number | null>(null);
   return (
     <div className="min-h-screen bg-background p-5 md:p-10">
       <div className="mx-auto max-w-4xl space-y-12">
@@ -219,10 +241,122 @@ export default function DevPage() {
           </div>
 
           <p className="rounded-card border-2 border-dashed border-outline-variant-light bg-surface-lowest-light p-4 text-xs text-on-surface-variant-light">
-            ℹ️ <strong>Fundação opt-in:</strong> componentes de feature
+            <strong>Fundação opt-in:</strong> componentes de feature
             (landing, home, wizard, etc.) continuam usando o sistema{' '}
             <em>Neon Arcade Terminal</em> até cada issue de migração rodar.
           </p>
+        </section>
+
+        {/* ================================================
+            Pool & Bet — painel migrado + palpite visual-only (p07-p08)
+            ================================================ */}
+        <section className="space-y-6 rounded-card-lg bg-background-light p-6 md:p-10">
+          <div>
+            <span className="font-heading text-xs font-bold uppercase tracking-widest text-on-surface-variant-light">
+              Novo · Painel & Palpite
+            </span>
+            <h2 className="mt-1 font-heading text-2xl font-bold text-on-surface-light md:text-3xl">
+              Pool & Bet
+            </h2>
+            <p className="mt-2 text-sm text-on-surface-variant-light">
+              Painel do participante migrado + componentes visual-only de
+              registrar palpite (consumidos por issue-09).
+            </p>
+          </div>
+
+          {/* PoolHero */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              PoolHero · Card hero + stats editoriais
+            </h3>
+            <PoolHero
+              poolName="Bolão da Copa 2026"
+              participantCount={32}
+              categoryCount={8}
+              roundCount={4}
+            />
+          </div>
+
+          {/* UserPositionCard */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              UserPositionCard · Card stat glassmorphism
+            </h3>
+            <UserPositionCard rank={3} score={120} leaderScore={185} />
+          </div>
+
+          {/* MatchCard + ScoreInput */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              MatchCard + ScoreInput · visual-only (issue-09 plugará state)
+            </h3>
+            <div className="flex flex-col gap-3">
+              {MOCK_MATCHES.map((match) => (
+                <MatchCard
+                  key={match.id}
+                  match={match}
+                  onSave={(payload) =>
+                    toast.success(
+                      `Palpite: ${payload.homeScore} x ${payload.awayScore}`
+                    )
+                  }
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* ScoreInput isolado */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              ScoreInput · isolado
+            </h3>
+            <div className="flex items-center gap-3 rounded-card bg-surface-lowest-light p-6 shadow-drop-soft">
+              <ScoreInput
+                value={demoScore}
+                onChange={setDemoScore}
+                aria-label="Demo score"
+              />
+              <span className="font-sans text-xs text-on-surface-variant-light">
+                Valor atual:{" "}
+                <span className="font-pixel text-primary-dim">
+                  {demoScore ?? "—"}
+                </span>
+              </span>
+            </div>
+          </div>
+
+          {/* SubmitBetsBar (preview estático, não fixo) */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              SubmitBetsBar · preview (real fica fixo em bottom-24)
+            </h3>
+            <div className="relative h-24 rounded-card bg-surface-low-light">
+              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 rounded-pill bg-hero-surface p-2 pl-5 shadow-drop-soft-lg">
+                <div className="flex flex-col gap-0.5 min-w-0">
+                  <span className="font-heading text-[9px] uppercase tracking-widest text-primary">
+                    Progresso
+                  </span>
+                  <span className="font-sans text-sm text-on-surface truncate">
+                    <span className="font-pixel text-xs text-primary">2</span>
+                    <span className="mx-1 text-on-surface-variant">de</span>
+                    <span className="font-pixel text-xs text-primary">3</span>
+                    <span className="ml-2 text-on-surface-variant">
+                      preenchidos
+                    </span>
+                  </span>
+                </div>
+                <Button variant="pill" size="pill-lg" disabled>
+                  Registrar
+                </Button>
+              </div>
+            </div>
+            <p className="text-xs text-on-surface-variant-light">
+              Componente real: <code>SubmitBetsBar</code> em{" "}
+              <code>src/components/features/pool/bet/SubmitBetsBar.tsx</code>{" "}
+              — fica <code>fixed bottom-24</code> acima da BottomNavBar
+              flutuante.
+            </p>
+          </div>
         </section>
 
         {/* ================================================
