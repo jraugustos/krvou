@@ -22,13 +22,7 @@ export function UserPositionCard({ rank, score, leaderScore }: UserPositionCardP
       )}
     >
       {/* Decoração de fundo */}
-      <div
-        className="pointer-events-none absolute right-0 top-0 h-full w-1/3 opacity-5"
-        style={{
-          background:
-            "repeating-linear-gradient(45deg, var(--color-tertiary) 0px, var(--color-tertiary) 1px, transparent 1px, transparent 8px)",
-        }}
-      />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-1/3 bg-tertiary/10" />
 
       {/* Posição */}
       <div className="flex flex-col items-center gap-1 min-w-[56px]">

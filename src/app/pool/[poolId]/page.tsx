@@ -12,27 +12,8 @@ import type {
   PoolStatus,
 } from "@/types/pool";
 
-function calculateRanking(
-  members: { id: string; userId: string; totalScore: number; user: { name: string | null; image: string | null } }[]
-): RankingMember[] {
-  const sorted = [...members].sort((a, b) => b.totalScore - a.totalScore);
-  let currentRank = 1;
-  return sorted.map((member, index) => {
-    if (index > 0 && member.totalScore < sorted[index - 1].totalScore) {
-      currentRank = index + 1;
-    }
-    return {
-      id: member.id,
-      userId: member.userId,
-      name: member.user.name ?? "Participante",
-      image: member.user.image,
-      totalScore: member.totalScore,
-      rank: currentRank,
-    };
-  });
-}
-
 // --- Dados mockados para Subtask V ---
+// TODO(Subtask F): substituir por queries Prisma reais + calculateRanking()
 
 function getMockRanking(currentUserId: string): RankingMember[] {
   return [
