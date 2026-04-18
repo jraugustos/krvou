@@ -1,137 +1,86 @@
 import { z } from "zod";
 
 // ============================================
-// UI Types (from Subtask V)
+// Step Type
 // ============================================
 
-export type WizardStep = 1 | 2 | 3 | 4;
+export type WizardStep = 1 | 2 | 3;
 
-export type CategoryType = "single_choice" | "exact_score" | "free_text";
+// ============================================
+// Product Types (from DB)
+// ============================================
 
-export interface Template {
+export interface ProductCategory {
   id: string;
-  label: string;
+  productId: string;
+  name: string;
+  description: string | null;
+  type: string;
+  resultSource: string;
+  sortOrder: number;
 }
 
-export interface Category {
+export interface Product {
   id: string;
   name: string;
-  description: string;
-  type: CategoryType;
-  selected: boolean;
+  slug: string;
+  description: string | null;
+  isActive: boolean;
+  categories: ProductCategory[];
 }
 
-export interface ScoringRule {
-  id: string;
+// ============================================
+// Wizard Category (union: pre-defined | custom)
+// ============================================
+
+export interface WizardCategory {
+  /** Unique key for React list rendering */
+  key: string;
+  /** null for custom categories */
+  productCategoryId: string | null;
   name: string;
-  points: number;
+  description: string | null;
+  type: string;
+  isCustom: boolean;
+  isActive: boolean;
 }
 
-export interface ScoringGroup {
-  group: string;
-  groupColor: "cyan" | "gold";
-  rules: ScoringRule[];
-}
-
-export interface ReviewData {
-  poolName: string;
-  event: string;
-  categoriesCount: number;
-  categoriesNames: string[];
-  scoringRange: string;
-  rulesCount: number;
-}
+// ============================================
+// Wizard State
+// ============================================
 
 export interface WizardState {
-  eventText: string;
-  selectedTemplateId: string | null;
-  categories: Category[];
-  scoringRules: ScoringGroup[];
-  review: ReviewData;
+  selectedProductId: string | null;
+  poolName: string;
+  categories: WizardCategory[];
 }
 
 // ============================================
-// AI Response Types
+// Review Data
 // ============================================
 
-export interface AnalyzeEventResponse {
-  name: string;
-  eventType: string;
-  categories: Array<{
-    name: string;
-    description: string;
-    type: CategoryType;
-  }>;
-}
-
-export interface SuggestCategoryResponse {
-  name: string;
-  description: string;
-  type: CategoryType;
-}
-
-export interface GenerateScoringResponse {
-  groups: Array<{
-    group: string;
-    groupColor: "cyan" | "gold";
-    rules: Array<{
-      name: string;
-      points: number;
-    }>;
-  }>;
-}
-
-export interface RebalanceScoringResponse {
-  groups: Array<{
-    group: string;
-    groupColor: "cyan" | "gold";
-    rules: Array<{
-      name: string;
-      points: number;
-    }>;
-  }>;
+export interface ReviewData {
+  productName: string;
+  poolName: string;
+  activeCategories: WizardCategory[];
 }
 
 // ============================================
 // Zod Schemas (Server Action validation)
 // ============================================
 
-export const AnalyzeEventSchema = z.object({
-  eventText: z.string().min(1, "Descreva o evento"),
-});
-
-export const SuggestCategorySchema = z.object({
-  eventName: z.string().min(1),
-  existingCategories: z.string(),
-  request: z.string().min(1, "Descreva a categoria desejada"),
-});
-
-export const GenerateScoringSchema = z.object({
-  eventName: z.string().min(1),
-  categories: z.string().min(1),
-});
-
-export const RebalanceScoringSchema = z.object({
-  eventName: z.string().min(1),
-  currentRules: z.string().min(1),
-  request: z.string().min(1, "Descreva o que deseja rebalancear"),
-});
-
 export const CreatePoolSchema = z.object({
-  name: z.string().min(1, "Nome do bolao e obrigatorio"),
-  eventType: z.string().optional(),
-  categories: z.string().min(1),
-  scoringRules: z.string().min(1),
+  name: z.string().min(1, "Nome do bolao e obrigatorio").max(60, "Nome muito longo"),
+  productId: z.string().min(1, "Produto e obrigatorio"),
+  activeProductCategoryIds: z.string(), // JSON array of string IDs
+  customCategoryNames: z.string(),       // JSON array of string names
 });
 
 // ============================================
-// Action State Types
+// Action State Type
 // ============================================
 
-export type WizardActionState<T = undefined> = {
-  success: true;
-  data: T;
-} | {
-  success: false;
-  error: string;
-} | null;
+export type WizardActionState<T = undefined> =
+  | { success: true; data: T }
+  | { success: false; error: string }
+  | null;

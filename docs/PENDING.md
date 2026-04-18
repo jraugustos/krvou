@@ -1,7 +1,7 @@
 # Acoes Pendentes — KRVOU
 
 > Integracao com servicos externos e configuracoes que precisam ser feitas antes de testar/deployar determinadas features.
-> Atualizado em: 2026-04-05
+> Atualizado em: 2026-04-12
 
 ---
 
@@ -28,26 +28,7 @@
 
 ---
 
-## P02 — Anthropic API Key (issue-05)
-
-**Status:** Pendente
-**Bloqueio:** Wizard IA nao funciona sem a chave
-**Necessita de:** issue-05 (Subtask F)
-
-**O que fazer:**
-1. Acessar [Anthropic Console](https://console.anthropic.com/)
-2. Criar API Key
-3. Adicionar ao `.env.local`:
-   ```
-   ANTHROPIC_API_KEY="sk-ant-..."
-   ```
-
-**Codigo ja preparado:** `src/lib/ai.ts` — usa `@anthropic-ai/sdk` com modelo `claude-sonnet-4-6`
-**Impacto se nao feito:** Wizard nao gera categorias/regras via IA. Funcionalidade core do issue-05-F bloqueada.
-
----
-
-## P03 — AUTH_SECRET (issue-03)
+## P02 — AUTH_SECRET (issue-03)
 
 **Status:** Pendente
 **Bloqueio:** Auth.js nao funciona sem o secret
@@ -67,7 +48,7 @@
 
 ---
 
-## P04 — PostgreSQL (deploy)
+## P03 — PostgreSQL (deploy)
 
 **Status:** Pendente (nao urgente)
 **Bloqueio:** Deploy de producao
@@ -83,7 +64,7 @@
 
 ---
 
-## P05 — Vercel Deploy (pos-MVP)
+## P04 — Vercel Deploy (pos-MVP)
 
 **Status:** Futuro
 **Bloqueio:** App nao acessivel publicamente
@@ -91,7 +72,7 @@
 
 **O que fazer:**
 1. Conectar repo ao Vercel
-2. Configurar env vars (AUTH_SECRET, AUTH_GOOGLE_*, ANTHROPIC_API_KEY, DATABASE_URL)
+2. Configurar env vars (AUTH_SECRET, AUTH_GOOGLE_*, DATABASE_URL)
 3. Configurar dominio (se aplicavel)
 
 ---
@@ -101,7 +82,6 @@
 | # | Pendencia | Bloqueia | Urgencia |
 |---|-----------|----------|----------|
 | P01 | Google OAuth credentials | Login Google | Media (login email funciona) |
-| P02 | Anthropic API Key | Wizard IA | Baixa (so na issue-05) |
-| P03 | AUTH_SECRET | Toda auth | Alta (precisa pra testar auth) |
-| P04 | PostgreSQL prod | Deploy | Baixa (SQLite funciona em dev) |
-| P05 | Vercel deploy | Acesso publico | Baixa (pos-MVP) |
+| P02 | AUTH_SECRET | Toda auth | Alta (precisa pra testar auth) |
+| P03 | PostgreSQL prod | Deploy | Baixa (SQLite funciona em dev) |
+| P04 | Vercel deploy | Acesso publico | Baixa (pos-MVP) |

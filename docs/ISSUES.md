@@ -1,6 +1,6 @@
 # Issues — KRVOU
 
-> Baseado em: docs/SPEC.md
+> Baseado em: docs/SPEC.md (v2 — wizard redesenhado, sem IA)
 > Total: 12 issues | Concluidas: 1/12 | Em progresso: 2/12
 > Pendencias externas: ver [docs/PENDING.md](PENDING.md)
 
@@ -255,79 +255,158 @@
 
 ### issue-05 — Wizard de Criacao (P04)
 
-**Pagina:** P04 (P04a, P04b, P04c, P04d)
+**Pagina:** P04 (P04a, P04b, P04c)
 **Componentes:** C10, C11, C12, C13, C14, C15, C16
-**Comportamentos:** B11, B12, B13, B14, B15, B16, B17, B18
+**Comportamentos:** B11, B12, B13, B14, B15, B16
 
 ---
 
-#### Subtask V: Interface do wizard (4 steps)
+#### Subtask V: Interface do wizard (3 steps)
 
 **Tipo:** visual
-**Descricao:** Criar as 4 telas do wizard com todos os componentes. Dados mockados, IA simulada com respostas fixas.
+**Descricao:** Criar as 3 telas do wizard com todos os componentes. Dados mockados — produtos e categorias hardcoded no componente.
 
 **Secoes:**
-- WizardProgressBar (C10): 4 steps, gradient primary→cyan, "STEP X/4" pixel font
+- WizardProgressBar (C10): 3 steps, gradient primary→cyan, "STEP X/3" pixel font
 - WizardHeader (C11): step number verde + titulo bold
-- AIBubble (C12): background gradient translucido roxo→cyan, borda roxa, tag "IA" pixel font
-- **Step 1 — Evento:** AIBubble com mensagem inicial, input texto livre, TemplateChips (C13) com 4 opcoes (Copa, Champions, Brasileirao, Personalizado)
-- **Step 2 — Categorias:** AIBubble com sugestoes, CategoryCheckCards (C14) com checkbox, nome, descricao, badge tipo. Botao "+ Adicionar"
-- **Step 3 — Pontuacao:** AIBubble com regras, ScoringRuleGroups (C15) agrupados, valores em pixel font clicaveis. Input para pedir rebalanceamento
-- **Step 4 — Revisao:** ReviewCards (C16) com label, titulo, subtitle, link "Editar" (cor cyan). CTA "CRIAR BOLAO"
-- Navegacao: botoes "Voltar" e "Proximo" entre steps (B18)
+- **Step 1 — Selecionar Produto:**
+  - ProductCards (C12): grid de cards de produto. Copa do Mundo 2026 (selecionavel, card com imagem/icone + nome + descricao curta). Brasileirao e Champions League com badge "Em breve" e opacity reduzida (nao clicaveis). Estado selecionado: borda primary + check overlay
+- **Step 2 — Configurar Bolao:**
+  - PoolNameInput (C13): input para nome do bolao (label + placeholder + contador X/60 chars)
+  - CategoryCheckCards (C14): lista com as 5 categorias mockadas da Copa do Mundo 2026 (Resultados dos jogos, Vencedor da copa, Artilheiro, Primeiro/segundo/terceiro lugar, Jogador revelacao). Toggle on/off visual. Badge de tipo em cada card
+  - CustomCategoryInput (C15): botao "+ Adicionar categoria" expande para input inline. Confirmar adiciona card na lista com badge "Personalizada". Cancelar fecha sem adicionar
+- **Step 3 — Revisao:**
+  - ReviewCards (C16): produto selecionado, nome do bolao, categorias ativas (X pre-definidas + Y personalizadas). Link "Editar" volta ao step correspondente
+  - CTA "CRIAR BOLAO" (desabilitado por ora — so visual nesta subtask)
+- Navegacao: botoes "Voltar" e "Proximo" entre steps (B16). Voltar no step 1 vai para Home
 
 **Responsividade:** mobile-first
-**Design tokens:** AIBubble gradient, cards com checkbox states, botao arcade
+**Design tokens:** ProductCard com estado selecionado, CategoryCheckCard com badge, botao arcade
+
+**Mock data:**
+```
+Produtos: [
+  { id: "copa-2026", name: "Copa do Mundo 2026", description: "FIFA World Cup", available: true },
+  { id: "brasileirao", name: "Brasileirao Serie A", description: "Campeonato Brasileiro", available: false },
+  { id: "champions", name: "Champions League", description: "UEFA Champions League", available: false },
+]
+Categorias Copa 2026: [
+  { id: "1", name: "Resultados dos jogos", description: "Placar exato de cada partida", type: "exact_score" },
+  { id: "2", name: "Vencedor da copa", description: "Selecao campea", type: "single_choice" },
+  { id: "3", name: "Artilheiro", description: "Jogador com mais gols", type: "free_text" },
+  { id: "4", name: "Primeiro, segundo e terceiro lugar", description: "Podio de selecoes", type: "single_choice" },
+  { id: "5", name: "Jogador revelacao", description: "Nome do jogador", type: "free_text" },
+]
+```
 
 **Criterio de aceitacao (V):**
-- [ ] 4 steps renderizam nas rotas `/pool/new?step=1` ate `?step=4`
+- [ ] 3 steps renderizam nas rotas `/pool/new?step=1` ate `?step=3`
 - [ ] Progress bar atualiza por step
-- [ ] Step 1: input + template chips funcionais
-- [ ] Step 2: cards com toggle on/off visual
-- [ ] Step 3: valores clicaveis com editor inline
-- [ ] Step 4: review cards com dados mockados
+- [ ] Step 1: ProductCards com selecionavel e "Em breve" nao clicaveis
+- [ ] Estado selecionado do produto visivel (borda primary + check)
+- [ ] Step 2: input nome + CategoryCheckCards com toggle on/off visual
+- [ ] Categoria personalizada: botao expande input, confirmar adiciona na lista
+- [ ] Step 3: ReviewCards com dados mockados e links "Editar"
 - [ ] Navegacao entre steps (Voltar/Proximo) funciona
 - [ ] Estado mantido entre steps (client-side)
-- [ ] Dados mockados (categorias, regras pre-definidas)
 
 ---
 
-#### Subtask F: Logica do wizard com IA + persistencia
+#### Subtask F: Schema, seed e persistencia
 
 **Tipo:** funcional
 **Depende de:** Subtask V desta issue
-**Descricao:** Integrar Claude API para gerar categorias/regras, implementar logica de criacao do bolao no banco.
+**Descricao:** Criar schema Prisma para Product/ProductCategory/PoolCategory, seed com dados da Copa do Mundo 2026, Server Action de criacao do bolao.
 
-**Caminho feliz (B11 → B17):**
-1. Step 1: usuario descreve evento → Server Action envia para Claude API → IA extrai nome, tipo, escopo → avanca para step 2
-2. Step 2: IA retorna categorias sugeridas → usuario toggle on/off (B13) → pode pedir mais via input (B14) → avanca
-3. Step 3: IA retorna regras de pontuacao → usuario edita valores (B15) → pode pedir rebalanceamento (B16) → avanca
-4. Step 4: revisao → clica "CRIAR BOLAO" (B17) → Server Action salva Pool + BetCategories + ScoringRules + PoolMember(admin) → gera inviteCode → redireciona para P05
+**Schema novo (adicionar ao prisma/schema.prisma):**
+```prisma
+model Product {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  description String?
+  isActive    Boolean           @default(true)
+  categories  ProductCategory[]
+  pools       Pool[]
+  createdAt   DateTime          @default(now())
+}
+
+model ProductCategory {
+  id            String         @id @default(cuid())
+  productId     String
+  product       Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?
+  type          String         // "exact_score" | "single_choice" | "free_text"
+  resultSource  String         @default("manual") // "api" | "manual" (D13)
+  sortOrder     Int            @default(0)
+  poolCategories PoolCategory[]
+
+  @@index([productId])
+}
+
+model PoolCategory {
+  id                  String           @id @default(cuid())
+  poolId              String
+  pool                Pool             @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  productCategoryId   String?          // null se categoria personalizada
+  productCategory     ProductCategory? @relation(fields: [productCategoryId], references: [id])
+  isCustom            Boolean          @default(false)
+  customName          String?          // preenchido se isCustom = true
+  customResultText    String?          // preenchido pelo admin ao final da competicao
+  isActive            Boolean          @default(true)
+  createdAt           DateTime         @default(now())
+
+  @@index([poolId])
+  @@index([productCategoryId])
+}
+```
+
+**Modificar model Pool:**
+- Adicionar: `productId String`, `product Product @relation(...)`, `categories PoolCategory[]`
+- Remover: `eventType String?` (substituido por productId)
+
+**Seed (prisma/seed.ts):**
+- Criar Product "Copa do Mundo 2026" (slug: "copa-2026", isActive: true)
+- Criar as 5 ProductCategories com sortOrder 1-5
+- Pontuacao (ScoringRules) sera definida em issue posterior (D10)
+
+**Caminho feliz (B11 → B15):**
+1. Step 1: usuario seleciona Copa do Mundo 2026 (B11)
+2. Step 2: preenche nome + toggle categorias (B12, B13) + opcional: adiciona personalizadas (B14)
+3. Step 3: revisao → clica "CRIAR BOLAO" (B15)
+4. Server Action `createPoolAction`:
+   - Valida sessao (redirect /auth se expirado)
+   - Cria Pool (name, productId, status:"open", inviteCode 8 chars)
+   - Cria PoolCategory para cada categoria pre-definida ativa (productCategoryId, isCustom:false)
+   - Cria PoolCategory para cada categoria personalizada (isCustom:true, customName)
+   - Cria PoolMember (role:"admin")
+5. Redireciona para `/pool/[poolId]/created`
 
 **Edge cases:**
-- Texto vazio step 1 → botao desabilitado (B11)
-- Erro IA → Toast "Nao consegui entender o evento. Tente descrever com mais detalhes." + permite re-tentar (B11)
-- 0 categorias selecionadas → botao "Proximo" desabilitado (B13)
-- Valor pontuacao: min 1, max 999, apenas inteiros (B15)
-- Erro rebalanceamento IA → Toast + mantem valores anteriores (B16)
-- Erro criacao → Toast "Erro ao criar bolao" + nao redireciona (B17)
-- Template chips (B12): pre-preenche input e envia para IA
+- Produto nao selecionado → botao "Proximo" desabilitado (B11)
+- Nome vazio ou > 60 chars → botao "Proximo" step 2 desabilitado (B12)
+- 0 categorias ativas → botao "Proximo" desabilitado (B13)
+- Categoria personalizada sem nome → botao "Adicionar" desabilitado (B14)
+- Erro criacao → Toast "Erro ao criar bolao" + nao redireciona (B15)
+- Nome duplicado → permitido (boloes com mesmo nome sao diferenciados por ID)
 
 **Dados:**
-- Tabelas: Pool (name, eventType, status:open, inviteCode), BetCategory (name, description, type, poolId, isLocked, deadline), ScoringRule (name, points, categoryId), PoolMember (poolId, userId, role:admin)
-- Claude API: Anthropic SDK, prompt com evento do usuario, retorna JSON estruturado
-- State: React state client-side ate step 4 (D03)
+- Tabelas criadas: Pool, PoolCategory (por categoria ativa), PoolMember (admin)
+- Leitura: Product + ProductCategory via seed (ja existem no banco)
+- State: React state client-side ate step 3 (D03)
+- Sem Claude API (D13 — sem IA no wizard)
 
 **Criterio de aceitacao (F):**
-- [ ] Claude API gera categorias e regras a partir da descricao do evento
-- [ ] Templates pre-populam corretamente
-- [ ] Toggle categorias funciona com validacao min 1
-- [ ] Edicao de pontuacao inline funciona com validacao
-- [ ] Rebalanceamento via IA atualiza valores
-- [ ] Criacao salva Pool + BetCategories + ScoringRules + PoolMember no banco
-- [ ] inviteCode unico gerado (8 chars alfanumericos, D07)
+- [ ] Seed cria Product "Copa do Mundo 2026" com 5 categorias
+- [ ] Step 1 busca produtos do banco (isActive:true)
+- [ ] Step 2 exibe categorias do produto selecionado do banco
+- [ ] Criacao salva Pool + PoolCategories + PoolMember no banco
+- [ ] inviteCode unico gerado (8 chars, D07)
 - [ ] Redirect para `/pool/[poolId]/created` apos sucesso
+- [ ] Categorias personalizadas salvas com isCustom:true + customName
 - [ ] Estado nao persiste no banco ate confirmacao (D03)
+- [ ] Sessao expirada redireciona para /auth
 
 ---
 

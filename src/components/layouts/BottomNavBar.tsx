@@ -21,6 +21,8 @@ export function BottomNavBar() {
         const isActive =
           item.href === "/home"
             ? pathname === "/home"
+            : item.href === "/bets"
+            ? pathname.startsWith("/bets") || pathname.startsWith("/pool/")
             : pathname.startsWith(item.href.split("?")[0]);
 
         return (
