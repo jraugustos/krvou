@@ -1,3 +1,5 @@
+import Image from "next/image";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { RankingMember } from "@/types/pool";
 
@@ -6,83 +8,106 @@ interface RankingListProps {
   currentUserId: string;
 }
 
-export function RankingList({ members, currentUserId }: RankingListProps) {
-  if (members.length === 0) {
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+}
+
+function Avatar({ name, image }: { name: string; image: string | null }) {
+  if (image) {
     return (
-      <div className="border-2 border-outline-variant p-5 text-center">
-        <p className="font-sans text-sm text-on-surface-variant">
-          Nenhum participante ainda.
-        </p>
-      </div>
+      <Image
+        src={image}
+        alt={name}
+        width={32}
+        height={32}
+        className="size-8 rounded-full object-cover"
+      />
     );
   }
 
   return (
-    <div className="flex flex-col border-2 border-outline-variant shadow-arcade-dark overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center gap-3 bg-surface-highest px-4 py-2 border-b-2 border-outline-variant">
-        <span className="font-heading text-[9px] text-on-surface-variant uppercase tracking-widest w-8 text-center">
-          #
-        </span>
-        <span className="font-heading text-[9px] text-on-surface-variant uppercase tracking-widest flex-1">
-          Participante
-        </span>
-        <span className="font-heading text-[9px] text-on-surface-variant uppercase tracking-widest text-right">
-          Pts
-        </span>
-      </div>
-
-      {/* Linhas */}
-      {members.map((member) => {
-        const isCurrentUser = member.userId === currentUserId;
-        return (
-          <div
-            key={member.id}
-            className={cn(
-              "flex items-center gap-3 px-4 py-3 border-b border-outline-variant last:border-b-0 transition-colors",
-              isCurrentUser
-                ? "bg-primary/10 border-l-[3px] border-l-primary"
-                : "bg-surface-container"
-            )}
-          >
-            {/* Posição */}
-            <span
-              className={cn(
-                "font-pixel text-xs w-8 text-center leading-none",
-                member.rank === 1
-                  ? "text-secondary"
-                  : member.rank === 2
-                  ? "text-on-surface-variant"
-                  : member.rank === 3
-                  ? "text-tertiary"
-                  : "text-on-surface-variant"
-              )}
-            >
-              {member.rank}
-            </span>
-
-            {/* Nome */}
-            <span
-              className={cn(
-                "font-sans text-sm flex-1 truncate",
-                isCurrentUser ? "text-primary font-medium" : "text-on-surface"
-              )}
-            >
-              {member.name}
-              {isCurrentUser && (
-                <span className="ml-2 font-heading text-[9px] text-primary uppercase tracking-widest">
-                  você
-                </span>
-              )}
-            </span>
-
-            {/* Score */}
-            <span className="font-pixel text-xs text-primary leading-none">
-              {member.totalScore}
-            </span>
-          </div>
-        );
-      })}
+    <div
+      aria-hidden="true"
+      className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-[10px] font-bold uppercase text-primary-dim"
+    >
+      {getInitials(name)}
     </div>
+  );
+}
+
+/**
+ * RankingList — Lista editorial de participantes ranqueados.
+ * Card branco + linhas divididas + avatares circulares + linha do usuário destacada.
+ */
+export function RankingList({ members, currentUserId }: RankingListProps) {
+  if (members.length === 0) {
+    return (
+      <Card padding="default">
+        <p className="text-center text-sm text-on-surface-variant-light">
+          Sem participantes ainda.
+        </p>
+      </Card>
+    );
+  }
+
+  return (
+    <Card padding="none">
+      <ul
+        role="list"
+        className="flex flex-col divide-y divide-outline-variant-light"
+      >
+        {members.map((member) => {
+          const isCurrentUser = member.userId === currentUserId;
+          return (
+            <li
+              key={member.id}
+              className={cn(
+                "flex items-center gap-3 px-4 py-3 transition-colors",
+                isCurrentUser && "bg-primary/5"
+              )}
+            >
+              <span
+                className={cn(
+                  "flex size-7 shrink-0 items-center justify-center font-pixel text-[11px] leading-none",
+                  member.rank === 1
+                    ? "text-primary"
+                    : "text-primary-dim"
+                )}
+              >
+                {member.rank}
+              </span>
+
+              <Avatar name={member.name} image={member.image} />
+
+              <span
+                className={cn(
+                  "flex-1 truncate font-sans text-sm",
+                  isCurrentUser
+                    ? "font-semibold text-on-surface-light"
+                    : "text-on-surface-light"
+                )}
+              >
+                {member.name}
+                {isCurrentUser && (
+                  <span className="ml-2 font-heading text-[9px] uppercase tracking-widest text-primary-dim">
+                    você
+                  </span>
+                )}
+              </span>
+
+              <span className="font-heading text-sm font-bold text-on-surface-light">
+                {member.totalScore}
+                <span className="ml-1 font-heading text-[9px] uppercase tracking-widest text-on-surface-variant-light">
+                  pts
+                </span>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </Card>
   );
 }

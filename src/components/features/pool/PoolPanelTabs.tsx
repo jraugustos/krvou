@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PoolHero } from "@/components/features/pool/PoolHero";
 import { TabBar } from "@/components/features/pool/TabBar";
 import { UserPositionCard } from "@/components/features/pool/UserPositionCard";
 import { RankingList } from "@/components/features/pool/RankingList";
@@ -18,21 +19,15 @@ export function PoolPanelTabs({ data }: PoolPanelTabsProps) {
   const [activeTab, setActiveTab] = useState<PanelTab>("ranking");
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-5">
-      {/* Header do bolão */}
-      <div className="flex flex-col gap-1">
-        <h1 className="font-pixel text-xs text-primary leading-relaxed">
-          {data.poolName}
-        </h1>
-        <p className="font-heading text-xs text-on-surface-variant uppercase tracking-widest">
-          Painel do Participante
-        </p>
-      </div>
+    <div className="flex flex-1 flex-col gap-5 bg-background-light p-5">
+      <PoolHero
+        poolName={data.poolName}
+        participantCount={data.ranking.length}
+        categoryCount={data.betCategories.length}
+      />
 
-      {/* TabBar */}
       <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {/* Conteúdo da tab ativa */}
       {activeTab === "ranking" && (
         <div className="flex flex-col gap-4">
           {data.currentUserRank && (
