@@ -36,7 +36,7 @@ export default async function NewPoolPage({
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <DashboardTopBar />
-      <main className="mt-16 flex flex-1 flex-col">
+      <main className="flex flex-1 flex-col pt-20 pb-28">
         <Suspense>
           <WizardShell initialStep={validStep} products={allProducts} />
         </Suspense>

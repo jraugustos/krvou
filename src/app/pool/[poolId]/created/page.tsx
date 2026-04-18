@@ -38,7 +38,7 @@ export default async function PoolCreatedPage({
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <DashboardTopBar />
-      <main className="mt-16 flex flex-1 flex-col pb-24">
+      <main className="flex flex-1 flex-col pt-20 pb-28">
         <SuccessScreen
           poolName={pool.name}
           inviteUrl={inviteUrl}

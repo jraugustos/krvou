@@ -18,7 +18,7 @@ export default async function HomePage() {
     <>
       <DashboardTopBar />
 
-      <main className="pt-20 pb-24 px-4 md:px-6">
+      <main className="pt-20 pb-28 px-4 md:px-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="font-heading text-lg font-bold uppercase tracking-wide text-on-surface">
             Meus Boloes

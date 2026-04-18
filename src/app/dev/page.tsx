@@ -24,7 +24,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SendIcon } from "lucide-react";
+import {
+  Bell,
+  Home,
+  Menu,
+  Plus,
+  SendIcon,
+  Target,
+  Trophy,
+  User,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const colors = [
@@ -223,6 +232,142 @@ export default function DevPage() {
             (landing, home, wizard, etc.) continuam usando o sistema{' '}
             <em>Neon Arcade Terminal</em> até cada issue de migração rodar.
           </p>
+        </section>
+
+        {/* ================================================
+            Digital Arena — Layouts (issue/design-refresh-layouts)
+            ================================================ */}
+        <section className="space-y-6 rounded-card-lg bg-background-light p-6 md:p-10">
+          <div>
+            <span className="font-heading text-xs font-bold uppercase tracking-widest text-on-surface-variant-light">
+              Novo · Layouts
+            </span>
+            <h2 className="mt-1 font-heading text-2xl font-bold text-on-surface-light md:text-3xl">
+              Digital Arena — Layouts
+            </h2>
+            <p className="mt-2 text-sm text-on-surface-variant-light">
+              Previews estáticos (sem <code>fixed</code>) dos 3 chromes migrados:
+              <code className="mx-1">TopBar</code>,{" "}
+              <code className="mx-1">DashboardTopBar</code> e{" "}
+              <code className="mx-1">BottomNavBar</code> com FAB central.
+            </p>
+          </div>
+
+          {/* TopBar preview */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              TopBar (pública)
+            </h3>
+            <div className="flex items-center justify-between rounded-b-2xl border-b border-white/10 bg-hero-surface px-5 py-4 shadow-drop-soft-md md:px-8">
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  aria-label="Menu (preview)"
+                  className="flex items-center justify-center rounded-full p-1.5 text-white/70 transition-colors hover:bg-white/10 hover:text-primary md:hidden"
+                >
+                  <Menu className="size-6" />
+                </button>
+                <span className="font-pixel text-lg uppercase tracking-wider text-primary drop-shadow-[0_0_8px_rgba(57,255,20,0.6)]">
+                  KRVOU
+                </span>
+              </div>
+              <nav className="hidden items-center gap-2 md:flex">
+                <span className="rounded-pill bg-white/10 px-4 py-2 font-heading text-xs font-bold uppercase tracking-widest text-primary">
+                  Home
+                </span>
+                <span className="rounded-pill px-4 py-2 font-heading text-xs font-bold uppercase tracking-widest text-white/70">
+                  Ranking
+                </span>
+                <span className="rounded-pill px-4 py-2 font-heading text-xs font-bold uppercase tracking-widest text-white/70">
+                  Jogos
+                </span>
+              </nav>
+              <button
+                type="button"
+                aria-label="Notificações (preview)"
+                className="flex items-center justify-center rounded-full p-1.5 text-white/70 transition-colors hover:bg-white/10 hover:text-primary"
+              >
+                <Bell className="size-5" />
+              </button>
+            </div>
+            <p className="text-xs text-on-surface-variant-light">
+              <code>bg-hero-surface</code> · <code>rounded-b-2xl</code> ·
+              <code className="mx-1">shadow-drop-soft-md</code> · logo com glow
+              neon · nav items em pills.
+            </p>
+          </div>
+
+          {/* DashboardTopBar preview */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              DashboardTopBar (autenticada)
+            </h3>
+            <div className="flex items-center justify-between rounded-b-2xl border-b border-white/10 bg-hero-surface px-5 py-4 shadow-drop-soft-md md:px-8">
+              <span className="font-pixel text-lg uppercase tracking-wider text-primary drop-shadow-[0_0_8px_rgba(57,255,20,0.6)]">
+                KRVOU
+              </span>
+              <div
+                className="flex size-9 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/10 ring-2 ring-primary/20"
+                aria-label="Perfil do usuário (preview)"
+              >
+                <User className="size-4 text-white/70" />
+              </div>
+            </div>
+            <p className="text-xs text-on-surface-variant-light">
+              Mesmo chrome do <code>TopBar</code> com avatar redondo{" "}
+              <code>size-9</code> e <code>ring-2 ring-primary/20</code>.
+            </p>
+          </div>
+
+          {/* BottomNavBar preview */}
+          <div className="space-y-3">
+            <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-on-surface-variant-light">
+              BottomNavBar (mobile) · floating pill + FAB
+            </h3>
+            <div className="flex items-center justify-center rounded-card bg-surface-lowest-light px-4 pb-10 pt-16">
+              <div className="relative w-full max-w-[360px]">
+                <div
+                  aria-label="Criar bolão (preview)"
+                  className="absolute left-1/2 -top-8 z-20 flex size-16 -translate-x-1/2 items-center justify-center rounded-full bg-primary shadow-neon-glow-strong"
+                >
+                  <Plus className="size-7 text-hero-surface" strokeWidth={3} />
+                </div>
+                <nav className="relative z-10 flex w-full items-center justify-around rounded-card-xl border border-white/5 bg-[#0d0118] px-4 py-4 shadow-2xl">
+                  <span
+                    aria-label="Home"
+                    className="flex items-center justify-center rounded-full p-2 text-primary"
+                  >
+                    <Home className="size-6" />
+                  </span>
+                  <span
+                    aria-label="Palpites"
+                    className="flex items-center justify-center rounded-full p-2 text-white/40"
+                  >
+                    <Target className="size-6" />
+                  </span>
+                  <div className="w-12" aria-hidden="true" />
+                  <span
+                    aria-label="Ranking"
+                    className="flex items-center justify-center rounded-full p-2 text-white/40"
+                  >
+                    <Trophy className="size-6" />
+                  </span>
+                  <span
+                    aria-label="Perfil"
+                    className="flex items-center justify-center rounded-full p-2 text-white/40 opacity-50"
+                  >
+                    <User className="size-6" />
+                  </span>
+                </nav>
+              </div>
+            </div>
+            <p className="text-xs text-on-surface-variant-light">
+              <code>bg-[#0d0118]</code> · <code>rounded-card-xl</code> · FAB
+              verde neon <code>size-16</code> com{" "}
+              <code>shadow-neon-glow-strong</code> · 4 slots laterais + spacer
+              central · ícones-only.
+            </p>
+          </div>
         </section>
 
         {/* ================================================
