@@ -10,10 +10,10 @@ interface StepProductProps {
 export function StepProduct({ products, selectedId, onSelect }: StepProductProps) {
   return (
     <div className="flex flex-col gap-4">
-      <p className="font-sans text-sm text-on-surface-variant">
-        Escolha o produto que o seu bolao vai acompanhar.
+      <p className="font-heading text-sm text-on-surface-variant-light">
+        Escolha o produto que o seu bolão vai acompanhar.
       </p>
-      <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
         {products.map((product) => (
           <ProductCard
             key={product.id}
