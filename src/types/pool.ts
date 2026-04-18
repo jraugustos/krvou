@@ -23,3 +23,46 @@ export interface InvitePageData {
   categories: string[];
   status: PoolStatus;
 }
+
+// --- Painel do Participante (issue-08) ---
+
+export interface RankingMember {
+  id: string;
+  userId: string;
+  name: string;
+  image: string | null;
+  totalScore: number;
+  rank: number;
+}
+
+export type BetStatus = "feito" | "pendente";
+
+export interface BetCategoryData {
+  id: string;
+  name: string;
+  type: string;
+  isLocked: boolean;
+  deadline: Date | null;
+  status: BetStatus;
+  betValue: string | null;
+}
+
+export interface ResultComparisonData {
+  id: string;
+  name: string;
+  resultValue: string;
+  betValue: string | null;
+  pointsEarned: number | null;
+}
+
+export interface PoolPanelData {
+  poolId: string;
+  poolName: string;
+  poolStatus: PoolStatus;
+  currentUserId: string;
+  ranking: RankingMember[];
+  currentUserRank: RankingMember | null;
+  leaderScore: number;
+  betCategories: BetCategoryData[];
+  results: ResultComparisonData[];
+}
