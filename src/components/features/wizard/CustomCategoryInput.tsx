@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 
 interface CustomCategoryInputProps {
   onAdd: (name: string) => void;
@@ -30,7 +31,7 @@ export function CustomCategoryInput({ onAdd }: CustomCategoryInputProps) {
     return (
       <Button
         type="button"
-        variant="outline"
+        variant="pill-outline"
         size="sm"
         className="self-start"
         onClick={() => setOpen(true)}
@@ -42,10 +43,18 @@ export function CustomCategoryInput({ onAdd }: CustomCategoryInputProps) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <Card padding="sm" className="flex flex-col gap-3">
+      <label
+        htmlFor="custom-category-name"
+        className="font-heading text-[10px] uppercase tracking-widest text-on-surface-variant-light"
+      >
+        Nova categoria
+      </label>
       <Input
+        id="custom-category-name"
         type="text"
-        placeholder="Ex: Tecnico destaque do torneio"
+        variant="default"
+        placeholder="Ex: Técnico destaque do torneio"
         value={name}
         autoFocus
         onChange={(e) => setName(e.target.value)}
@@ -58,6 +67,7 @@ export function CustomCategoryInput({ onAdd }: CustomCategoryInputProps) {
       <div className="flex gap-2">
         <Button
           type="button"
+          variant="pill"
           size="sm"
           onClick={handleAdd}
           disabled={!name.trim()}
@@ -67,7 +77,7 @@ export function CustomCategoryInput({ onAdd }: CustomCategoryInputProps) {
         </Button>
         <Button
           type="button"
-          variant="outline"
+          variant="pill-outline"
           size="sm"
           onClick={handleCancel}
           className="flex-1"
@@ -75,6 +85,6 @@ export function CustomCategoryInput({ onAdd }: CustomCategoryInputProps) {
           Cancelar
         </Button>
       </div>
-    </div>
+    </Card>
   );
 }

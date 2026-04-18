@@ -25,14 +25,14 @@ export function StepReview({ review, onEdit, onCreate, isPending }: StepReviewPr
           onEdit={onEdit}
         />
         <ReviewCard
-          label="Nome do Bolao"
+          label="Nome do Bolão"
           title={review.poolName}
           editStep={2}
           onEdit={onEdit}
         />
         <ReviewCard
           label="Categorias"
-          title={`${predefined.length} pre-definidas${custom.length > 0 ? ` + ${custom.length} personalizada${custom.length > 1 ? "s" : ""}` : ""}`}
+          title={`${predefined.length} pré-definidas${custom.length > 0 ? ` + ${custom.length} personalizada${custom.length > 1 ? "s" : ""}` : ""}`}
           subtitle={allNames}
           editStep={2}
           onEdit={onEdit}
@@ -40,7 +40,8 @@ export function StepReview({ review, onEdit, onCreate, isPending }: StepReviewPr
       </div>
 
       <Button
-        size="xl"
+        variant="pill"
+        size="pill-lg"
         className="mt-2 w-full"
         onClick={onCreate}
         disabled={isPending}
@@ -48,7 +49,7 @@ export function StepReview({ review, onEdit, onCreate, isPending }: StepReviewPr
         {isPending ? (
           <Loader2 className="size-4 animate-spin" />
         ) : (
-          "CRIAR BOLAO"
+          "Criar Bolão"
         )}
       </Button>
     </div>

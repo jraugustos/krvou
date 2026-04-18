@@ -163,66 +163,69 @@ export function WizardShell({ initialStep, products }: WizardShellProps) {
   const selectedProductName = selectedProduct?.name ?? "Produto";
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-6 p-5">
-      <WizardProgressBar currentStep={currentStep} totalSteps={3} />
-      <WizardHeader stepNumber={currentStep} title={STEP_TITLES[currentStep]} />
+    <div className="min-h-screen bg-background-light px-4 pt-6 pb-32 text-on-surface-light">
+      <div className="mx-auto flex max-w-2xl flex-col gap-6">
+        <WizardProgressBar currentStep={currentStep} totalSteps={3} />
+        <WizardHeader stepNumber={currentStep} title={STEP_TITLES[currentStep]} />
 
-      {/* Step content */}
-      <div className="flex-1">
-        {currentStep === 1 && (
-          <StepProduct
-            products={products}
-            selectedId={selectedProductId}
-            onSelect={handleSelectProduct}
-          />
-        )}
-        {currentStep === 2 && (
-          <StepConfigure
-            poolName={poolName}
-            onPoolNameChange={setPoolName}
-            categories={categories}
-            onToggleCategory={handleToggleCategory}
-            onAddCustomCategory={handleAddCustomCategory}
-            productName={selectedProductName}
-          />
-        )}
-        {currentStep === 3 && (
-          <StepReview
-            review={review}
-            onEdit={(step) => navigateToStep(step as WizardStep)}
-            onCreate={handleCreate}
-            isPending={isPending}
-          />
-        )}
-      </div>
+        {/* Step content */}
+        <div className="flex-1">
+          {currentStep === 1 && (
+            <StepProduct
+              products={products}
+              selectedId={selectedProductId}
+              onSelect={handleSelectProduct}
+            />
+          )}
+          {currentStep === 2 && (
+            <StepConfigure
+              poolName={poolName}
+              onPoolNameChange={setPoolName}
+              categories={categories}
+              onToggleCategory={handleToggleCategory}
+              onAddCustomCategory={handleAddCustomCategory}
+              productName={selectedProductName}
+            />
+          )}
+          {currentStep === 3 && (
+            <StepReview
+              review={review}
+              onEdit={(step) => navigateToStep(step as WizardStep)}
+              onCreate={handleCreate}
+              isPending={isPending}
+            />
+          )}
+        </div>
 
-      {/* Navigation */}
-      <div className="flex gap-3 pb-20">
-        <Button
-          variant="outline"
-          onClick={handleBack}
-          className="flex-1"
-          disabled={isPending}
-        >
-          <ChevronLeft className="size-4" />
-          {currentStep === 1 ? "Home" : "Voltar"}
-        </Button>
-        {currentStep < 3 && (
+        {/* Navigation */}
+        <div className="flex gap-3 pt-2">
           <Button
-            onClick={handleNext}
+            variant="pill-outline"
+            onClick={handleBack}
             className="flex-1"
-            disabled={isNextDisabled}
+            disabled={isPending}
           >
-            {isPending ? (
-              <Loader2 className="size-4 animate-spin" />
-            ) : (
-              <>
-                Proximo
-                <ChevronRight className="size-4" />
-              </>
-            )}
+            <ChevronLeft className="size-4" />
+            {currentStep === 1 ? "Home" : "Voltar"}
           </Button>
-        )}
+          {currentStep < 3 && (
+            <Button
+              variant="pill"
+              onClick={handleNext}
+              className="flex-1"
+              disabled={isNextDisabled}
+            >
+              {isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <>
+                  Próximo
+                  <ChevronRight className="size-4" />
+                </>
+              )}
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

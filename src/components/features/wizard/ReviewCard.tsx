@@ -1,3 +1,5 @@
+import { Card } from "@/components/ui/card";
+
 interface ReviewCardProps {
   label: string;
   title: string;
@@ -14,16 +16,16 @@ export function ReviewCard({
   onEdit,
 }: ReviewCardProps) {
   return (
-    <div className="flex items-start justify-between border-2 border-outline-variant bg-surface-container p-4">
-      <div className="flex flex-col gap-1">
-        <span className="font-heading text-[10px] font-medium uppercase tracking-widest text-on-surface-variant">
+    <Card padding="sm" className="flex flex-row items-start justify-between gap-4">
+      <div className="flex min-w-0 flex-col gap-1">
+        <span className="font-heading text-[10px] font-medium uppercase tracking-widest text-on-surface-variant-light">
           {label}
         </span>
-        <span className="font-heading text-sm font-bold text-foreground">
+        <span className="font-heading text-sm font-bold text-on-surface-light">
           {title}
         </span>
         {subtitle && (
-          <span className="font-sans text-xs text-on-surface-variant">
+          <span className="font-sans text-xs text-on-surface-variant-light">
             {subtitle}
           </span>
         )}
@@ -33,11 +35,11 @@ export function ReviewCard({
           type="button"
           onClick={() => onEdit(editStep)}
           aria-label={`Editar ${label}`}
-          className="font-heading text-xs font-bold text-accent-cyan transition-colors hover:text-accent-cyan-dim"
+          className="shrink-0 font-heading text-xs font-bold uppercase tracking-wider text-primary underline-offset-4 transition-colors hover:underline"
         >
           Editar
         </button>
       )}
-    </div>
+    </Card>
   );
 }
